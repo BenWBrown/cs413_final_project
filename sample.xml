@@ -1,0 +1,31 @@
+<circuit name="main">
+  <!-- inputs and constants -->
+  <input name="input 1" bitwidth="1" connection="Hub 1"></input>
+  <input name="input 2" bitwidth="4" connection="Hub 2"></input>
+  <constant bitwidth="3" value="0x7" connection="Hub 3"></constant>
+
+  <!-- splitters and gates -->
+  <logic name="splitter 1">
+    <input bitwidth="1" connection="Hub 1"></input>
+    <input bitwidth="3" connection="Hub 3"></input>
+    <output bitwidth="4" connection="Hub 4"></output>
+  </logic>
+  <logic name="AND gate">
+    <input bitwidth="4" connection="Hub 2"></input>
+    <input bitwidth="4" connection="Hub 4"></input>
+    <output bitwidth="4" connection="Hub 5"></input>
+  </logic>
+  <logic name="inverter">
+    <input bitwidth="4" connection="Hub 5"></input>
+    <output bitwidth="4" connection="Hub 6"></input>
+  </logic>
+  <logic name="OR gate">
+    <input bitwidth="4" connection="Hub 2"></input>
+    <input bitwidth="4" connection="Hub 7"></input>
+    <output bitwidth="4" connection="Hub 7"></input>
+  </logic>
+
+  <!-- output -->
+  <input name="output 1" bitwidth="4" connection="Hub 7"></input>
+  <input name="output 2" bitwidth="4" connection="Hub 2"></input>
+</circuit>
