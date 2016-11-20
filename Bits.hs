@@ -1,3 +1,5 @@
+import Control.Applicative
+
 data Bit = Zero | One
    deriving (Eq, Show)
 
@@ -5,37 +7,31 @@ not' :: Bit -> Bit
 not' Zero = One
 not' _ = Zero
 
-and', or', xor' :: Bit -> Bit -> Bit
-and' Zero _       = Zero
-and' _ Zero       = Zero
-and' One One      = One
+and', or', xor', nand', nor', xnor' :: Bit -> Bit -> Bit
+and' One One = One
+and' _ _     = Zero
 
-or' One _         = One
-or' _ One         = One
-or' Zero Zero     = Zero
+or' Zero Zero   = Zero
+or' _ _         = One
 
-xor' One One      = Zero
-xor' Zero Zero    = Zero
-xor' One Zero     = One
-xor' Zero One     = One
+xor' One One    = Zero
+xor' Zero Zero  = Zero
+xor' _ _        = One
+
+nand' x y = not' (and' x y)
+nor' x y = not' (or' x y)
+xnor' x y = not' (xor' x y)
 
 notB :: [Bit] -> [Bit]
-notB x = map not' x
+notB = map not'
 
-andB :: [Bit] -> [Bit] -> [Bit]
-andB x y = map (\(x',y') -> and' x' y') $ zip x y
+liftA2' :: (a -> b -> c) -> [a] -> [b] -> [c]
+liftA2' f xs ys = map (\(x, y) -> x `f` y) (zip xs ys)
 
-nandB :: [Bit] -> [Bit] -> [Bit]
-nandB x y = notB $ andB x y
-
-orB :: [Bit] -> [Bit] -> [Bit]
-orB x y = map (\(x',y') -> or' x' y') $ zip x y
-
-norB :: [Bit] -> [Bit] -> [Bit]
-norB x y = notB $ orB x y
-
-xorB :: [Bit] -> [Bit] -> [Bit]
-xorB x y = map (\(x',y') -> and' (or' x' y') ( not' (and' x' y'))) $ zip x y
-
-xnorB :: [Bit] -> [Bit] -> [Bit]
-xnorB x y = notB $ xorB x y
+andB, nandB, orB, norB, xorB, xnorB :: [Bit] -> [Bit] -> [Bit]
+andB = liftA2' and'
+nandB = liftA2' nand'
+orB = liftA2' or'
+norB = liftA2' nor'
+xorB = liftA2' xor'
+xnorB = liftA2' xnor'
