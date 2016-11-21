@@ -1,7 +1,8 @@
 import Circuit
 import Bits
 
-import System.Environment (getArgs)
+import System.Environment
+import Data.Foldable
 
 data NumberBase = Binary | Decimal | Hex deriving Show
 
@@ -9,7 +10,7 @@ main :: IO ()
 main = do
   args <- getArgs  --gets command line arguments
   let numberBase = getNumberBase args
-  let circuitXML = getCircuitXML args numberBase
+  circuitXML <- getCircuitXML args
   let circuit = parseXML circuitXML
   inputValueStrings <- getInputValueStrings circuit
   let inputValues = map (stringToValue numberBase) inputValueStrings
@@ -19,8 +20,12 @@ main = do
 getNumberBase :: [String] -> NumberBase
 getNumberBase _ = Binary
 
-getCircuitXML :: [String] -> NumberBase -> String
-getCircuitXML _ _ = ""
+--gets the first not flag arguemnt as the XML filename
+getCircuitXML :: [String] -> IO String
+getCircuitXML args = readFile fileName where
+    fileName = case find (\x -> head x /= '-') args of
+      Nothing -> undefined
+      Just str -> str
 
 parseXML :: String -> Circuit
 parseXML _ = Circuit [] [] []
