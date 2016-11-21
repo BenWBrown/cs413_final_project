@@ -9,16 +9,16 @@ import Bits
 
 
 data ConnectedElement = Input {
-      label :: String,
+      name :: String,
       bitWidth :: String, --read in from parser?
       connection :: String
       -- parent field??? ex: if it's an input to a logic function
 } | Output {
-      label :: String,
+      name :: String,
       bitWidth :: String, --read in from parser?
       connection :: String
 } | Constant {
-      label :: String,
+      name :: String,
       bitWidth :: String,
       value :: [Bit], --value may or may not start in base 2. value :: toBin v?
       connection :: String
