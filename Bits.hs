@@ -1,3 +1,5 @@
+module Bits where
+
 import Control.Applicative
 
 data Bit = Zero | One
