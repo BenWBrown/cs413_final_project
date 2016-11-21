@@ -6,28 +6,33 @@ import Bits
 -- Data Structures:
 
 -- Circuit
-data Circuit = Circuit {
-      runCircuit :: [String] -> [Maybe String]
-}
+
 
 data ConnectedElement = Input {
+      label :: String,
       bitWidth :: String, --read in from parser?
       connection :: String
       -- parent field??? ex: if it's an input to a logic function
 } | Output {
+      label :: String,
       bitWidth :: String, --read in from parser?
       connection :: String
 } | Constant {
-       bitWidth :: String,
-       value :: [Bit], --value may or may not start in base 2. value :: toBin v?
-       connection :: String
+      label :: String,
+      bitWidth :: String,
+      value :: [Bit], --value may or may not start in base 2. value :: toBin v?
+      connection :: String
 }
 
---logic element. a is the type of the function that logic element runs
-data LogicElement a = LogicElement a [ConnectedElement] [ConnectedElement]
+data LogicElement = LogicElement ([[Bit]] -> [[Bit]]) [ConnectedElement] [ConnectedElement]
+                  | Circuit [LogicElement] [ConnectedElement] [ConnectedElement]
 
-inputs :: LogicElement a -> [ConnectedElement]
+inputs :: LogicElement -> [ConnectedElement]
 inputs (LogicElement _ inputs _) = inputs
+inputs (Circuit _ inputs _) = inputs
 
-outputs :: LogicElement a -> [ConnectedElement]
+outputs :: LogicElement -> [ConnectedElement]
 outputs (LogicElement _ _ outputs) = outputs
+outputs (Circuit _ _ outputs) = outputs
+
+type Circuit = LogicElement
