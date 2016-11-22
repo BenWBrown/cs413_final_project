@@ -7,6 +7,8 @@ import System.Exit
 import Data.Foldable
 import Data.List
 
+import Control.Monad
+
 data NumberBase = Binary | Decimal | Hex deriving Show
 
 usage = "usage: runhaskell main.hs [-bdh] filename.xml"
@@ -29,13 +31,12 @@ main = do
 
 getNumberBase :: [String] -> NumberBase
 getNumberBase x
-  | find (\y -> y == "-b") x == Just "-b"   = Binary
-  | find (\y -> y == "-d") x == Just "-d"   = Decimal
-  | find (\y -> y == "-h") x == Just "-h"   = Hex
-  | otherwise                               = error usage
-                                              exitWith . ExitFailure $ 1
-                                              -- better to use IO().putStrLn?
-                                              -- if so, then Maybe NumberBase --> have to change other functios too
+  | find (== "-b") x == Just "-b"   = Binary
+  | find (== "-d") x == Just "-d"   = Decimal
+  | find (== "-h") x == Just "-h"   = Hex
+  | otherwise                       = error usage
+                                      exitWith . ExitFailure $ 1
+
 
 --gets the first arguemnt that's not a compiler flag as the XML filename
 getCircuitXML :: [String] -> IO String
@@ -51,8 +52,25 @@ parseXML _ = Circuit [] [] []
 getInputValueStrings :: LogicElement -> IO [String]
 getInputValueStrings _ = return ["some", "inputs"]
 
+-- WORK IN PROGRESS - does not compile
+-- -- get the actual values for the inputs in the circuit from the user via the command line
+-- getInputValueStrings :: LogicElement -> IO [String]
+-- getInputValueStrings n = helper (inputs n) -- the "name"s need to be extracted from the Inputs
+--                                           -- these names (Strings) will be used in asking for input
+
+-- this probably does not have to be a helper function - I just don't understand how to combine it with the above.
+helper :: [String] -> IO [String]
+helper inputList = forM inputList (\a -> do
+                   putStrLn $ "Enter value for Input " ++ show a ++ ":"
+                   value <- getLine
+                   return value)
+
+
+
+
+
 stringToValue :: NumberBase -> String -> [Bit]
-stringToValue _ "0" = [Zero] -- this always cuts off leading Zero bit (see line 21)
+stringToValue _ "0" = [Zero]
 stringToValue Binary s = map (\y -> if y == '1' then One else Zero) s
 stringToValue Decimal s = stringToValue Binary $ toBin (read s :: Int)
 stringToValue Hex s = stringToValue Binary $ toBin (parseHex s)
