@@ -4,20 +4,28 @@ import ArgumentBase
 
 
 import System.Environment
+import System.Exit
 import Data.Foldable
 
 data NumberBase = Binary | Decimal | Hex deriving Show
 
+usage = "usage: runhaskell main.hs [-bdh] filename.xml"
+
 main :: IO ()
 main = do
   args <- getArgs  --gets command line arguments
-  let numberBase = getNumberBase args
-  circuitXML <- getCircuitXML args
-  let circuit = parseXML circuitXML
-  inputValueStrings <- getInputValueStrings circuit
-  let inputValues = map (stringToValue numberBase) inputValueStrings
-  let outputValues = runCircuit circuit inputValues
-  displayOutputValues circuit outputValues numberBase
+  let notFlaggedArgs = filter (\x -> head x /= '-') args
+  if length notFlaggedArgs /= 1 then do
+    putStrLn usage
+    exitWith . ExitFailure $ 1
+  else do
+    let numberBase = getNumberBase args
+    circuitXML <- getCircuitXML args
+    let circuit = parseXML circuitXML
+    inputValueStrings <- getInputValueStrings circuit
+    let inputValues = map (stringToValue numberBase) inputValueStrings
+    let outputValues = runCircuit circuit inputValues
+    displayOutputValues circuit outputValues numberBase
 
 getNumberBase :: [String] -> NumberBase
 getNumberBase (x:xs)
