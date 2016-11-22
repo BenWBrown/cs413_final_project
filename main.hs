@@ -1,5 +1,7 @@
 import Circuit
 import Bits
+import ArgumentBase
+
 
 import System.Environment
 import Data.Foldable
@@ -18,7 +20,10 @@ main = do
   displayOutputValues circuit outputValues numberBase
 
 getNumberBase :: [String] -> NumberBase
-getNumberBase _ = Binary
+getNumberBase (x:xs)
+  | x == "-b" = Binary
+  | x == "-d" = Decimal
+  | x == "-h" = Hex
 
 --gets the first arguemnt that's not a compiler flag as the XML filename
 getCircuitXML :: [String] -> IO String
@@ -35,7 +40,10 @@ getInputValueStrings :: LogicElement -> IO [String]
 getInputValueStrings _ = return ["some", "inputs"]
 
 stringToValue :: NumberBase -> String -> [Bit]
-stringToValue _ _ = []
+stringToValue _ "0" = [Zero] -- this always cuts off leading Zero bit (see line 21)
+stringToValue Binary s = map (\y -> if y == '1' then One else Zero) s
+stringToValue Decimal s = stringToValue Binary $ toBin (read s :: Int)
+stringToValue Hex s = stringToValue Binary $ toBin (parseHex s)
 
 runCircuit :: Circuit -> [[Bit]] -> [[Bit]]
 runCircuit _ _ = []
