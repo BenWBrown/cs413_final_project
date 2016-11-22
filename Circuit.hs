@@ -1,7 +1,10 @@
 -- Program Skeleton HS
+{-# LANGUAGE MultiParamTypeClasses #-}
+
 module Circuit where
 
 import Bits
+import Text.ParserCombinators.Parsec
 
 -- Data Structures:
 
@@ -36,3 +39,26 @@ outputs (LogicElement _ _ outputs) = outputs
 outputs (Circuit _ _ outputs) = outputs
 
 type Circuit = LogicElement
+
+-- --Parsers.. doesn't compile yet, but this is generally what I want it to do
+-- circuitParser :: Parser Circuit
+-- circuitParser = do
+--   _ <- string "<circuit"
+--   _ <- spaces
+--   fields <- many fieldParser
+--   _ <- spaces
+--   _ <- char '>'
+--   _ <- spaces
+--   subcomponents <- many . choice $ [logicParser, connectedParser]
+--   _ <- spaces
+--   _ <- string "</circuit>"
+--   return Circuit [] [] [] --TODO: FILTER SUBCOMPONENTS
+--
+-- fieldParser :: Parser String
+-- fieldParser = return ""
+--
+-- logicParser :: Parser LogicElement
+-- logicParser = return LogicElement (\x -> x) [] []
+--
+-- connectedParser :: Parser ConnectedElement
+-- connectedParser = return Input "" "" ""

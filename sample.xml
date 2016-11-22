@@ -5,21 +5,21 @@
   <constant bitwidth="3" value="0x7" connection="Hub 3"></constant>
 
   <!-- splitters and gates -->
-  <logic name="splitter 1">
+  <logic name="splitter 1" type="splitter">
     <input bitwidth="1" connection="Hub 1"></input>
     <input bitwidth="3" connection="Hub 3"></input>
     <output bitwidth="4" connection="Hub 4"></output>
   </logic>
-  <logic name="AND gate">
+  <logic name="AND gate" type="and">
     <input bitwidth="4" connection="Hub 2"></input>
     <input bitwidth="4" connection="Hub 4"></input>
     <output bitwidth="4" connection="Hub 5"></input>
   </logic>
-  <logic name="inverter">
+  <logic name="inverter" type="inverter">
     <input bitwidth="4" connection="Hub 5"></input>
     <output bitwidth="4" connection="Hub 6"></input>
   </logic>
-  <logic name="OR gate">
+  <logic name="OR gate" type="or">
     <input bitwidth="4" connection="Hub 2"></input>
     <input bitwidth="4" connection="Hub 7"></input>
     <output bitwidth="4" connection="Hub 7"></input>
