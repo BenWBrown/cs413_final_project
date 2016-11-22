@@ -55,8 +55,11 @@ getInputValueStrings _ = return ["some", "inputs"]
 -- WORK IN PROGRESS - does not compile
 -- -- get the actual values for the inputs in the circuit from the user via the command line
 -- getInputValueStrings :: LogicElement -> IO [String]
--- getInputValueStrings n = helper (inputs n) -- the "name"s need to be extracted from the Inputs
---                                           -- these names (Strings) will be used in asking for input
+-- getInputValueStrings n = helper (inputs n)
+
+-- the "name"s need to be extracted from the Inputs. inputs LogicElement returns the ConnectedElement Input... I just care about their names
+-- these names will be used in asking for input (see helper function that takes [String] below)
+-- Question: how do I extract the names from the Input in the LogicElement?
 
 -- this probably does not have to be a helper function - I just don't understand how to combine it with the above.
 helper :: [String] -> IO [String]
@@ -64,9 +67,6 @@ helper inputList = forM inputList (\a -> do
                    putStrLn $ "Enter value for Input " ++ show a ++ ":"
                    value <- getLine
                    return value)
-
-
-
 
 
 stringToValue :: NumberBase -> String -> [Bit]
