@@ -20,7 +20,7 @@ main = do
 getNumberBase :: [String] -> NumberBase
 getNumberBase _ = Binary
 
---gets the first not flag arguemnt as the XML filename
+--gets the first arguemnt that's not a compiler flag as the XML filename
 getCircuitXML :: [String] -> IO String
 getCircuitXML args = readFile fileName where
     fileName = case find (\x -> head x /= '-') args of
