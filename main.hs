@@ -2,10 +2,10 @@ import Circuit
 import Bits
 import ArgumentBase
 
-
 import System.Environment
 import System.Exit
 import Data.Foldable
+import Data.List
 
 data NumberBase = Binary | Decimal | Hex deriving Show
 
@@ -28,10 +28,14 @@ main = do
     displayOutputValues circuit outputValues numberBase
 
 getNumberBase :: [String] -> NumberBase
-getNumberBase (x:xs)
-  | x == "-b" = Binary
-  | x == "-d" = Decimal
-  | x == "-h" = Hex
+getNumberBase x
+  | find (\y -> y == "-b") x == Just "-b"   = Binary
+  | find (\y -> y == "-d") x == Just "-d"   = Decimal
+  | find (\y -> y == "-h") x == Just "-h"   = Hex
+  | otherwise                               = error usage
+                                              exitWith . ExitFailure $ 1
+                                              -- better to use IO().putStrLn?
+                                              -- if so, then Maybe NumberBase --> have to change other functios too
 
 --gets the first arguemnt that's not a compiler flag as the XML filename
 getCircuitXML :: [String] -> IO String
