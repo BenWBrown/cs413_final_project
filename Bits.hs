@@ -1,6 +1,7 @@
 module Bits where
 
 import Control.Applicative
+import Data.Monoid
 
 data Bit = Zero | One
    deriving (Eq, Show)
@@ -37,3 +38,12 @@ orB = liftA2' or'
 norB = liftA2' nor'
 xorB = liftA2' xor'
 xnorB = liftA2' xnor'
+
+
+-- do these functions need to take the actual [Bit] input(s) as a parameter too????
+convertFunction :: ([Bit]->[Bit]) -> ([[Bit]]->[[Bit]])
+convertFunction f =
+
+convertFunction' :: ([Bit]->[Bit]->[Bit]) -> ([[Bit]]->[[Bit]]->[[Bit]])
+-- should this go to ([[Bit]]->[[Bit]]->[[Bit]]) or simply [[Bit]]->[[Bit]]??
+convertFunction' f =
