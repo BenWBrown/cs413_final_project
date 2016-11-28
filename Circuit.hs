@@ -14,21 +14,27 @@ import Text.ParserCombinators.Parsec
 data ConnectedElement = Input {
       name :: String,
       bitWidth :: String, --read in from parser?
-      connection :: String
+      connection :: String,
+      value :: [Bit]
       -- parent field??? ex: if it's an input to a logic function
 } | Output {
       name :: String,
       bitWidth :: String, --read in from parser?
-      connection :: String
+      connection :: String,
+      value :: [Bit]
 } | Constant {
       name :: String,
       bitWidth :: String,
       value :: [Bit], --value may or may not start in base 2. value :: toBin v?
       connection :: String
-}
+} deriving (Show)
+
+instance Show (a -> b) where
+  show _ = "<function>"
 
 data LogicElement = LogicElement ([[Bit]] -> [[Bit]]) [ConnectedElement] [ConnectedElement]
                   | Circuit [LogicElement] [ConnectedElement] [ConnectedElement]
+                  deriving (Show)
 
 inputs :: LogicElement -> [ConnectedElement]
 inputs (LogicElement _ inputs _) = inputs
