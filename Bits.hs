@@ -25,8 +25,8 @@ nand' x y = not' (and' x y)
 nor' x y = not' (or' x y)
 xnor' x y = not' (xor' x y)
 
-notB :: [Bit] -> [Bit]
-notB = map not'
+notB :: [[Bit]] -> [[Bit]]
+notB (x:xs) = map not' x : []
 
 liftA2' :: (a -> b -> c) -> [a] -> [b] -> [c]
 liftA2' f xs ys = map (\(x, y) -> x `f` y) (zip xs ys)
