@@ -40,6 +40,7 @@ xorB = liftA2' xor'
 xnorB = liftA2' xnor'
 
 
+-- are these both necessary? 
 -- do these functions need to take the actual [Bit] input(s) as a parameter too????
 convertFunction :: ([Bit]->[Bit]) -> ([[Bit]]->[[Bit]])
 convertFunction f =
