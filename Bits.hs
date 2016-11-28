@@ -32,18 +32,10 @@ liftA2' :: (a -> b -> c) -> [a] -> [b] -> [c]
 liftA2' f xs ys = map (\(x, y) -> x `f` y) (zip xs ys)
 
 
-andB, nandB, orB, norB, xorB, xnorB :: [Bit] -> [Bit] -> [Bit]
-andB = liftA2' and'
-nandB = liftA2' nand'
-orB = liftA2' or'
-norB = liftA2' nor'
-xorB = liftA2' xor'
-xnorB = liftA2' xnor'
-
--- are these both necessary?
--- do these functions need to take the actual [Bit] input(s) as a parameter too????
--- convertFunction :: ([Bit]->[Bit]) -> [Bit] -> ([[Bit]]->[[Bit]])
--- convertFunction f xs = map (f x) xs
-
--- convertFunction' :: ([Bit]->[Bit]->[Bit]) -> [Bit] -> [Bit] -> ([[Bit]]->[[Bit]])
--- convertFunction' f xs ys = map (\(x, y) -> x mconcat y) (zip xs ys)
+andB, nandB, orB, norB, xorB, xnorB :: [[Bit]] -> [[Bit]]
+andB (x:xs) = foldr (liftA2' and') x xs : []
+nandB (x:xs) = foldr (liftA2' nand') x xs : []
+orB (x:xs) = foldr (liftA2' or') x xs : []
+norB (x:xs) = foldr (liftA2' nor') x xs : []
+xorB (x:xs) = foldr (liftA2' xor') x xs : []
+xnorB (x:xs) = foldr (liftA2' xnor') x xs : []
