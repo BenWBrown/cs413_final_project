@@ -2,6 +2,7 @@ module Bits where
 
 import Control.Applicative
 import Data.Monoid
+import ArgumentBase
 
 data Bit = Zero | One
    deriving (Eq, Show)
@@ -31,7 +32,6 @@ notB (x:xs) = map not' x : []
 liftA2' :: (a -> b -> c) -> [a] -> [b] -> [c]
 liftA2' f xs ys = map (\(x, y) -> x `f` y) (zip xs ys)
 
-
 andB, nandB, orB, norB, xorB, xnorB :: [[Bit]] -> [[Bit]]
 andB (x:xs) = foldr (liftA2' and') x xs : []
 nandB (x:xs) = foldr (liftA2' nand') x xs : []
@@ -39,3 +39,17 @@ orB (x:xs) = foldr (liftA2' or') x xs : []
 norB (x:xs) = foldr (liftA2' nor') x xs : []
 xorB (x:xs) = foldr (liftA2' xor') x xs : []
 xnorB (x:xs) = foldr (liftA2' xnor') x xs : []
+
+addB :: [[Bit]] -> [Bit]
+addB inpts = stringToBits $ toBin $ foldr (+) 0 $ map toDecimal inpts
+
+-- subB :: [[Bit]] -> [Bit]
+-- subB inpts = map (\y -> if y == '1' then One else Zero) (toBin (foldr (-) 0 (map toDecimal inpts)))
+
+
+stringToBits :: String -> [Bit]
+stringToBits s = map (\y -> if y == '1' then One else Zero) s
+
+toDecimal :: [Bit] -> Int
+toDecimal x = foldr (\c s -> s * 2 + c) 0 (reverse (map convert x))
+                      where convert c = if c == Zero then 0 else 1
