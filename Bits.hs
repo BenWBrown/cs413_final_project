@@ -31,6 +31,7 @@ notB = map not'
 liftA2' :: (a -> b -> c) -> [a] -> [b] -> [c]
 liftA2' f xs ys = map (\(x, y) -> x `f` y) (zip xs ys)
 
+
 andB, nandB, orB, norB, xorB, xnorB :: [Bit] -> [Bit] -> [Bit]
 andB = liftA2' and'
 nandB = liftA2' nand'
@@ -39,12 +40,10 @@ norB = liftA2' nor'
 xorB = liftA2' xor'
 xnorB = liftA2' xnor'
 
-
--- are these both necessary? 
+-- are these both necessary?
 -- do these functions need to take the actual [Bit] input(s) as a parameter too????
-convertFunction :: ([Bit]->[Bit]) -> ([[Bit]]->[[Bit]])
-convertFunction f =
+-- convertFunction :: ([Bit]->[Bit]) -> [Bit] -> ([[Bit]]->[[Bit]])
+-- convertFunction f xs = map (f x) xs
 
-convertFunction' :: ([Bit]->[Bit]->[Bit]) -> ([[Bit]]->[[Bit]]->[[Bit]])
--- should this go to ([[Bit]]->[[Bit]]->[[Bit]]) or simply [[Bit]]->[[Bit]]??
-convertFunction' f =
+-- convertFunction' :: ([Bit]->[Bit]->[Bit]) -> [Bit] -> [Bit] -> ([[Bit]]->[[Bit]])
+-- convertFunction' f xs ys = map (\(x, y) -> x mconcat y) (zip xs ys)
