@@ -4,14 +4,14 @@ import Bits
 import Data.List
 
 update :: Circuit -> Circuit -> Circuit
-update containingCircuit (LogicElement f inputs outputs) = LogicElement f newInputs newOutputs where
-  newInputs = map (update' containingCircuit) inputs
-  newOutputs = case find (==[]) (map value inputs) of
-    Nothing -> map newValue (zip outputs (f (map value inputs)))
-    Just _ -> outputs
-update containingCircuit c@(Circuit logicElts inputs outputs) =
+update containingCircuit (LogicElement f ins outs) = LogicElement f newInputs newOutputs where
+  newInputs = map (update' containingCircuit) ins
+  newOutputs = case find (==[]) (map value ins) of
+    Nothing -> map newValue (zip outs (f (map value ins)))
+    Just _ -> outs
+update containingCircuit c@(Circuit logicElts ins outs) =
   case (map (update containingCircuit) logicElts) of --apply in turn
-  listOfLogicElts -> Circuit listOfLogicElts inputs (map (update' c) outputs)
+  listOfLogicElts -> Circuit listOfLogicElts ins (map (update' c) outs)
 
 update' :: Circuit -> ConnectedElement -> ConnectedElement
 update' containingCircuit elt = case valueForConnection containingCircuit (connection elt) of
@@ -40,19 +40,33 @@ valueForConnection (Circuit logicElts ins _) name =
     Just x -> Just x
 
 
+updateInputs :: Circuit -> [[Bit]] -> Circuit
+updateInputs (Circuit logicElts ins outs) inputValues = Circuit logicElts (map newValue $ zip ins inputValues) outs
+
+runCircuit :: Circuit -> [[Bit]] -> [[Bit]]
+runCircuit circuit ins = map value (outputs (runCircuit' (updateInputs circuit ins) circuit ))
+
+runCircuit' :: Circuit -> Circuit -> Circuit
+runCircuit' containingCircuit circuit =
+  case allOutputsFilled circuit of
+    False -> runCircuit' containingCircuit (update containingCircuit circuit)
+    True -> circuit
+
+allOutputsFilled :: Circuit -> Bool
+allOutputsFilled (Circuit _ _ outs) = and (map (/=[]) (map value outs))
 
 --testing circuit
 
 foo :: [[Bit]] -> [[Bit]]
-foo (x:xs) = [[One, One]]
+foo x = [foldl orB [Zero, Zero, Zero, Zero] x]
 
 in1 = Input "and input 1" "4" "connection 1" []
 in2 = Input "and input 2" "4" "connection 2" []
 out1 = Output "and output" "4" "connection 3" []
 x = LogicElement foo [in1, in2] [out1]
 
-circIn1 = Input "input 1" "4" "connection 1" [Zero, One, Zero, One]
-circIn2 = Input "input 2" "4" "connection 2" [Zero, Zero, One, One]
+circIn1 = Input "input 1" "4" "connection 1" [] --[Zero, One, Zero, One]
+circIn2 = Input "input 2" "4" "connection 2" [] --[Zero, Zero, One, One]
 
 circOut1 = Output "output 1" "4" "connection 3" []
 
