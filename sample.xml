@@ -1,31 +1,31 @@
 <circuit name="main">
   <!-- inputs and constants -->
-  <input name="input 1" bitwidth="1" connection="Hub 1"></input>
-  <input name="input 2" bitwidth="4" connection="Hub 2"></input>
+  <input name="circ input 1" bitwidth="1" connection="Hub 1"></input>
+  <input name="circ input 2" bitwidth="4" connection="Hub 2"></input>
   <constant bitwidth="3" value="0x7" connection="Hub 3"></constant>
 
   <!-- splitters and gates -->
   <logic name="splitter 1" type="splitter">
-    <input bitwidth="1" connection="Hub 1"></input>
-    <input bitwidth="3" connection="Hub 3"></input>
-    <output bitwidth="4" connection="Hub 4"></output>
+    <input name="splitter input 1" bitwidth="1" connection="Hub 1"></input>
+    <input name="splitter input 2" bitwidth="3" connection="Hub 3"></input>
+    <output name="splitter output 1" bitwidth="4" connection="Hub 4"></output>
   </logic>
   <logic name="AND gate" type="and">
-    <input bitwidth="4" connection="Hub 2"></input>
-    <input bitwidth="4" connection="Hub 4"></input>
-    <output bitwidth="4" connection="Hub 5"></input>
+    <input name="and input 1"  bitwidth="4" connection="Hub 2"></input>
+    <input name="and input 2" bitwidth="4" connection="Hub 4"></input>
+    <output name="and output 1" bitwidth="4" connection="Hub 5"></output>
   </logic>
   <logic name="inverter" type="inverter">
-    <input bitwidth="4" connection="Hub 5"></input>
-    <output bitwidth="4" connection="Hub 6"></input>
+    <input name="inverter input 1" bitwidth="4" connection="Hub 5"></input>
+    <output name="inverter output 1" bitwidth="4" connection="Hub 6"></output>
   </logic>
   <logic name="OR gate" type="or">
-    <input bitwidth="4" connection="Hub 2"></input>
-    <input bitwidth="4" connection="Hub 7"></input>
-    <output bitwidth="4" connection="Hub 7"></input>
+    <input name="or input 1" bitwidth="4" connection="Hub 2"></input>
+    <input name="or input 2" bitwidth="4" connection="Hub 7"></input>
+    <output name="or output 1" bitwidth="4" connection="Hub 7"></output>
   </logic>
 
   <!-- output -->
-  <input name="output 1" bitwidth="4" connection="Hub 7"></input>
-  <input name="output 2" bitwidth="4" connection="Hub 2"></input>
+  <output name="circ output 1" bitwidth="4" connection="Hub 7"></output>
+  <output name="circ output 2" bitwidth="4" connection="Hub 2"></output>
 </circuit>
