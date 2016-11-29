@@ -76,7 +76,7 @@ decToBinary (s:s') = case s == '-' of
 
 --  HEX NEGATIVE???
 hexToBinary :: String -> [Bit]
-hexToBinary x = decToBinary $ show (parseHex x)
+hexToBinary x = binToBinary $ parseHex x
 
 decToBinaryNegative :: Int -> [Bit]
 decToBinaryNegative x = plusOne $ flipBits x
@@ -84,8 +84,8 @@ decToBinaryNegative x = plusOne $ flipBits x
 decToBinaryPositive :: Int -> [Bit]
 -- decimal to binary positive
 decToBinaryPositive 0 = [Zero] -- this as "0" results in extra Zero bit (fixed (?) in line 13)
-decToBinaryPositive x =  let s = (decToBinaryPositiveHelper $ x `div` 2) ++ (show $ x `mod` 2) in
-              map (\y -> if y == '1' then One else Zero) s
+decToBinaryPositive x = let s = (decToBin $ x `div` 2) ++ (show $ x `mod` 2) in
+                        map (\y -> if y == '1' then One else Zero) s
 
 flipBits :: Int -> [Bit]
 flipBits x = map not' (decToBinaryPositive x)
@@ -98,12 +98,8 @@ binToDecimal :: [Bit] -> Int
 binToDecimal (x:xs) = foldr (\c s -> s * 2 + c) 0 (reverse (map convert (x:xs)))
                          where convert c = if c == Zero then 0 else 1
 
-decToBinaryPositiveHelper :: Int -> String
- -- Convert positive base 10 Int to Twos Complement String
-decToBinaryPositiveHelper 0 = "0"
-decToBinaryPositiveHelper x =  (decToBin $ x `div` 2) ++ (show $ x `mod` 2)
-
 decToBin :: Int -> String
 -- Convert base 10 Int to base 2 binary String
+-- if take out "0", don't need tail?????? TO DO
 decToBin 0 = "0" -- this as "0" results in extra Zero bit (fixed (?) in line 13)
 decToBin x =  (decToBin $ x `div` 2) ++ (show $ x `mod` 2)
