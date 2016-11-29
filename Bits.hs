@@ -40,8 +40,13 @@ norB (x:xs) = foldr (liftA2' nor') x xs : []
 xorB (x:xs) = foldr (liftA2' xor') x xs : []
 xnorB (x:xs) = foldr (liftA2' xnor') x xs : []
 
-addB :: [[Bit]] -> [Bit]
-addB inpts = decToBinary $ show (foldr (+) 0 $ map binaryToDecimal inpts)
+addB :: [[Bit]] -> [[Bit]]
+-- Adding 4 + 4 (0100 + 0100) -> 0 1000
+-- the carry-out '0' is necesary to denote positive number
+addB (x:xs) = let (y:ys) = decToBinary $ show (foldr (+) 0 $ map binaryToDecimal (x:xs))
+             in case length (y:ys) > length x of
+             True -> [y] : ys : []
+             False -> (y:ys) : []
 
 multiplyB :: [[Bit]] -> [Bit]
 multiplyB inpts = decToBinary $  show (foldr (*) 1 $ map binaryToDecimal inpts)
