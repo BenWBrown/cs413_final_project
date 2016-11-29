@@ -1,15 +1,10 @@
 -- Functions required for stringToValue :: [NumberBase] -> String -> [Bit]
 module ArgumentBase
 (
-toBin,
 parseHex,
-hexChar
+hexChar,
 ) where
 
-toBin :: Int -> String
--- Convert base 10 Int to base 2 binary String
-toBin 0 = [] -- this as "0" results in extra Zero bit (fixed (?) in line 13)
-toBin x =  (toBin $ x `div` 2) ++ (show $ x `mod` 2)
 
 parseHex :: String -> Int
 -- Convert Hex String to base 10 Int
