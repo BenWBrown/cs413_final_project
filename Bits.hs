@@ -48,8 +48,16 @@ addB (x:xs) = let (y:ys) = decToBinary $ show (foldr (+) 0 $ map binaryToDecimal
              True -> [y] : ys : []
              False -> (y:ys) : []
 
-multiplyB :: [[Bit]] -> [Bit]
-multiplyB inpts = decToBinary $  show (foldr (*) 1 $ map binaryToDecimal inpts)
+multiplyB :: [[Bit]] -> [[Bit]]
+multiplyB (x:xs) = let y = decToBinary $  show (foldr (*) 1 $ map binaryToDecimal (x:xs))
+                   in setCarry (length y) (length x) y : drop (length y - length x) y : []
+
+setCarry :: Int -> Int -> [Bit] -> [Bit]
+setCarry lenY lenX x = let x' = take (lenY - lenX) x
+                  in case head x' == Zero of
+                  True -> (take (lenX - (lenY - lenX)) $ repeat Zero) ++ x'
+                  False -> (take (lenX - (lenY - lenX)) $ repeat One) ++ x'
+
 
 subB :: [[Bit]] -> [Bit]
 -- will only ever have two inputs
