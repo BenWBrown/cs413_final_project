@@ -92,9 +92,11 @@ decToBinary :: String -> [Bit]
 decToBinary (s:s') = case s == '-' of
   False -> decToBinaryPositive (read (s:s') :: Int)
   True -> decToBinaryNegative (read (s') :: Int)
+decToBinary _ = []
 
-hexToBinary :: String -> [Bit]
-hexToBinary x = binToBinary $ parseHex x
+-- this was not compiling...
+-- hexToBinary :: String -> [Bit]
+-- hexToBinary x = binToBinary $ parseHex x
 
 decToBinaryNegative :: Int -> [Bit]
 decToBinaryNegative x = plusOne $ flipBits x

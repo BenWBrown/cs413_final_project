@@ -1,13 +1,14 @@
 import Circuit
 import Bits
 import ArgumentBase
+import XMLParser
 
 import System.Environment
 import System.Exit
 import Data.Foldable
 import Data.List
-
 import Control.Monad
+
 
 data NumberBase = Binary | Decimal | Hex deriving Show
 
@@ -23,7 +24,7 @@ main = do
   else do
     let numberBase = getNumberBase args
     circuitXML <- getCircuitXML args
-    let circuit = parseXML circuitXML
+    circuit <- parseCircuit circuitXML
     inputValueStrings <- getInputValueStrings circuit
     let inputValues = map (stringToValue numberBase) inputValueStrings
     let outputValues = runCircuit circuit inputValues
@@ -44,9 +45,6 @@ getCircuitXML args = readFile fileName where
     fileName = case find (\x -> head x /= '-') args of
       Nothing -> undefined
       Just str -> str
-
-parseXML :: String -> Circuit
-parseXML _ = Circuit [] [] []
 
 getInputValueStrings :: LogicElement -> IO [String]
 getInputValueStrings n = let inputList = map (\n' -> name n') $ inputs n

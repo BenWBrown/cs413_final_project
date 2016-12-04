@@ -1,29 +1,33 @@
 {-# LANGUAGE Arrows, NoMonomorphismRestriction #-}
+
+module XMLParser where
+
 import Text.XML.HXT.Core
+import Data.Map as M
 
 import Circuit
 import Bits
 
-{-
-  todo:
-  map from function name to function
-  get stringToValue actually working (probably need to pass in bitwidth as well)
-  figure out how to parse from a string instead of a file (should be easy)
--}
+parseCircuit :: String -> IO Circuit
+parseCircuit string = fmap head $ runX (parseXML string >>> getCircuit )
 
 
-parseXML file = readDocument [ withValidate no
-                             , withRemoveWS yes  -- throw away formating WS
-                             ] file
+functionMap :: Map String ([[Bit]] -> [[Bit]])
+functionMap = fromList [
+  ("not", notB),
+  ("and", andB),
+  ("nand", nandB),
+  ("or", orB),
+  ("nor", norB),
+  ("xor", xorB),
+  ("xnor", xnorB)]
+
+parseXML string = readString [ withValidate no, withRemoveWS yes] string
+parseXML' file = readDocument [ withValidate no, withRemoveWS yes] file
+
 
 atTag tag = deep (isElem >>> hasName tag)
 text = getChildren >>> getText
-
-foo :: [[Bit]] -> [[Bit]]
-foo x = x
-
-stringToValue :: String -> [Bit]
-stringToValue x = []
 
 getCircuit = atTag "circuit" >>>
   proc circ -> do
@@ -36,7 +40,9 @@ getCircuit = atTag "circuit" >>>
 getLogic = getChildren >>> isElem >>> hasName "logic" >>>
   proc logic -> do
     funcName <- getAttrValue "type" -< logic
-    let func = foo --TODO: MAP FROM NAME TO FUNC
+    let func = case M.lookup funcName functionMap of
+                Just x -> x
+                Nothing -> undefined
     inputs <- listA (getConnectedElement "input") -< logic
     outputs <- listA (getConnectedElement "output") -< logic
     returnA -< LogicElement func inputs outputs
@@ -47,7 +53,7 @@ getConnectedElement elementType = getChildren >>> isElem >>> hasName elementType
     bitWidth    <- getAttrValue "bitwidth" -< element
     connection  <- getAttrValue "connection" -< element
     valueString <- getAttrValue "value"      -< element
-    let value = stringToValue valueString
+    let value = decToBinary valueString
     returnA -< if elementType == "input" then (Input name bitWidth connection value)
                else if elementType == "output" then (Output name bitWidth connection value)
                else (Constant name bitWidth connection value)

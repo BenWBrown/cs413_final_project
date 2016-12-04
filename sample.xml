@@ -5,17 +5,17 @@
   <constant bitwidth="3" value="0x7" connection="Hub 3"></constant>
 
   <!-- splitters and gates -->
-  <logic name="splitter 1" type="splitter">
+  <!-- <logic name="splitter 1" type="splitter">
     <input name="splitter input 1" bitwidth="1" connection="Hub 1"></input>
     <input name="splitter input 2" bitwidth="3" connection="Hub 3"></input>
     <output name="splitter output 1" bitwidth="4" connection="Hub 4"></output>
-  </logic>
+  </logic> -->
   <logic name="AND gate" type="and">
     <input name="and input 1"  bitwidth="4" connection="Hub 2"></input>
     <input name="and input 2" bitwidth="4" connection="Hub 4"></input>
     <output name="and output 1" bitwidth="4" connection="Hub 5"></output>
   </logic>
-  <logic name="inverter" type="inverter">
+  <logic name="inverter" type="not">
     <input name="inverter input 1" bitwidth="4" connection="Hub 5"></input>
     <output name="inverter output 1" bitwidth="4" connection="Hub 6"></output>
   </logic>
