@@ -56,9 +56,9 @@ getInputValueStrings n = let inputList = map (\n' -> name n') $ inputs n
 
 stringToValue :: NumberBase -> String -> [Bit]
 stringToValue _ "0" = [Zero]
-stringToValue Binary s = map (\y -> if y == '1' then One else Zero) s
-stringToValue Decimal s = stringToValue Binary $ toBin (read s :: Int)
-stringToValue Hex s = stringToValue Binary $ toBin (parseHex s)
+stringToValue Binary s = binToBinary s
+stringToValue Decimal s = decToBinary s
+stringToValue Hex s = hexToBinary s
 
 runCircuit :: Circuit -> [[Bit]] -> [[Bit]]
 runCircuit _ _ = []
