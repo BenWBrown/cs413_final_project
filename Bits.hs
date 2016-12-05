@@ -64,11 +64,19 @@ subB :: [[Bit]] -> [Bit]
 subB inpts = let (x:xs) = reverse $ map binaryToDecimal inpts
              in decToBinary $ show (foldr (-) x xs)
 
-divideB :: [[Bit]] -> [Bit]
--- will only ever have two inputs
-divideB inpts = let (x:y) = reverse $ map binaryToDecimal inpts
-                in decToBinary $ show (foldr div x y)
 
+divideB :: [[Bit]] -> [[Bit]]
+-- will only ever have two inputs
+divideB (x:y) = let (x':y':[]) = map binaryToDecimal (x:y)
+                in setExtra (length x) $ decIntToBinary $ (div x' y') : (mod x' y') : []
+
+setExtra :: Int -> [[Bit]] -> [[Bit]]
+-- this function accounts that both quot and remainder are of starting bitwidth
+setExtra len (x:y:[])
+    | (length x) < len && (length y < len)  = ((take (len-length x) $ repeat $ head x) ++ x) : ((take (len-length y) $ repeat $ head y) ++ y) : []
+    | (length x) < len                       = ((take (len-length x) $ repeat $ head x) ++ x) : y : []
+    | (length y) < len                       = x : ((take (len-length y) $ repeat $ head y) ++ y) : []
+    | otherwise                              = (x:y:[])
 
 negatorB :: [[Bit]] -> [[Bit]]
 negatorB inpt = decIntToBinary $ map (* (-1)) (map binaryToDecimal inpt)
@@ -94,7 +102,7 @@ decToBinary (s:s') = case s == '-' of
   True -> decToBinaryNegative (read (s') :: Int)
 decToBinary _ = []
 
--- this was not compiling...
+
 hexToBinary :: String -> [Bit]
 hexToBinary x = binToBinary $ parseHex x
 
