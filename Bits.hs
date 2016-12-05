@@ -40,36 +40,12 @@ norB (x:xs) = foldr (liftA2' nor') x xs : []
 xorB (x:xs) = foldr (liftA2' xor') x xs : []
 xnorB (x:xs) = foldr (liftA2' xnor') x xs : []
 
-addB :: [[Bit]] -> [[Bit]]
--- Adding 4 + 4 (0100 + 0100) -> 0 1000
--- the carry-out '0' is necesary to denote positive number
-addB (x:xs) = let (y:ys) = decToBinary $ show (foldr (+) 0 $ map binaryToDecimal (x:xs))
-             in case length (y:ys) > length x of
-             True -> [y] : ys : []
-             False -> (y:ys) : []
-
-multiplyB :: [[Bit]] -> [[Bit]]
--- returns [[carry out - upper bits],[output]
-multiplyB (x:xs) = let y = decToBinary $  show (foldr (*) 1 $ map binaryToDecimal (x:xs))
-                   in setCarry (length y) (length x) y : drop (length y - length x) y : []
-
 setCarry :: Int -> Int -> [Bit] -> [Bit]
 setCarry lenY lenX x = let x' = take (lenY - lenX) x
                   in case head x' == Zero of
                   True -> (take (lenX - (lenY - lenX)) $ repeat Zero) ++ x'
                   False -> (take (lenX - (lenY - lenX)) $ repeat One) ++ x'
 
-
-subB :: [[Bit]] -> [Bit]
--- will only ever have two inputs
-subB inpts = let (x:xs) = reverse $ map binaryToDecimal inpts
-             in decToBinary $ show (foldr (-) x xs)
-
-
-divideB :: [[Bit]] -> [[Bit]]
--- returns [[quotient, remainder]]
-divideB (x:y) = let (x':y':[]) = map binaryToDecimal (x:y)
-                in addBits (length x) $ decIntToBinary $ (div x' y') : (mod x' y') : []
 
 addBits :: Int -> [[Bit]] -> [[Bit]]
 -- ensures consistent bitwidth for both quotient and remainder
