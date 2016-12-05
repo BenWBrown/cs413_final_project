@@ -125,3 +125,11 @@ decToBin :: Int -> String
 -- Convert base 10 Int to base 2 binary String
 decToBin 0 = "0"
 decToBin x =  (decToBin $ x `div` 2) ++ (show $ x `mod` 2)
+
+comparator :: [[Bit]] -> [[Bit]]
+comparator (x:y:[]) = comparator' (binaryToDecimal x) (binaryToDecimal y)
+comparator _ = undefined
+
+comparator' x y = if (x < y) then [[One], [Zero], [One]]
+            else if (x==y) then [[Zero], [One], [Zero]]
+            else [[Zero], [Zero], [One]]
