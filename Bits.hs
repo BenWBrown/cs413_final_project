@@ -49,6 +49,7 @@ addB (x:xs) = let (y:ys) = decToBinary $ show (foldr (+) 0 $ map binaryToDecimal
              False -> (y:ys) : []
 
 multiplyB :: [[Bit]] -> [[Bit]]
+-- returns [[carry out - upper bits],[output]
 multiplyB (x:xs) = let y = decToBinary $  show (foldr (*) 1 $ map binaryToDecimal (x:xs))
                    in setCarry (length y) (length x) y : drop (length y - length x) y : []
 
@@ -66,13 +67,14 @@ subB inpts = let (x:xs) = reverse $ map binaryToDecimal inpts
 
 
 divideB :: [[Bit]] -> [[Bit]]
--- will only ever have two inputs
+-- returns [[quotient, remainder]]
 divideB (x:y) = let (x':y':[]) = map binaryToDecimal (x:y)
-                in setExtra (length x) $ decIntToBinary $ (div x' y') : (mod x' y') : []
+                in addBits (length x) $ decIntToBinary $ (div x' y') : (mod x' y') : []
 
-setExtra :: Int -> [[Bit]] -> [[Bit]]
--- this function accounts that both quot and remainder are of starting bitwidth
-setExtra len (x:y:[])
+addBits :: Int -> [[Bit]] -> [[Bit]]
+-- ensures consistent bitwidth for both quotient and remainder
+-- ex: [Zero, One] and bitwidth = 4 -> [Zero, Zero, Zero, One]
+addBits len (x:y:[])
     | (length x) < len && (length y < len)  = ((take (len-length x) $ repeat $ head x) ++ x) : ((take (len-length y) $ repeat $ head y) ++ y) : []
     | (length x) < len                       = ((take (len-length x) $ repeat $ head x) ++ x) : y : []
     | (length y) < len                       = x : ((take (len-length y) $ repeat $ head y) ++ y) : []
