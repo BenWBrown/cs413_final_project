@@ -12,6 +12,20 @@ binaryToDecimal (x:xs) = case x == One of
      False -> binToDecimal (x:xs)
      True -> (binToDecimal (tail $ decToBinary $ show (binToDecimal (map not' (x:xs)) + 1) )) * (-1)
 
+binaryToString :: [Bit] -> String
+binaryToString [] = ""
+binaryToString (Zero:xs) = "0" ++ binaryToString xs
+binaryToString (One:xs) = "1" ++ binaryToString xs
+
+binaryToHexString :: [Bit] -> String
+binaryToHexString = reverse . binaryToHexString' . reverse
+
+binaryToHexString' :: [Bit] -> String
+binaryToHexString' (w:x:y:z:rest) = ((hexCharOf . reverse $ (w:x:y:z:[])) ++ binaryToHexString' rest)
+binaryToHexString' rest = hexCharOf . (signExtend 4) . reverse $ rest
+
+hexCharOf :: [Bit] -> String
+hexCharOf = charHex . binaryToString
 
 binToBinary :: String -> [Bit]
 -- from a binary string in Twos Complement to a Twos Complement string of bits
@@ -55,3 +69,7 @@ decToBin :: Int -> String
 -- Convert base 10 Int to base 2 binary String
 decToBin 0 = "0"
 decToBin x =  (decToBin $ x `div` 2) ++ (show $ x `mod` 2)
+
+signExtend :: Int -> [Bit] -> [Bit]
+signExtend n bitstring | n < length bitstring = undefined
+                       | otherwise = (take (n - length bitstring) (repeat . head $ bitstring)) ++ bitstring
