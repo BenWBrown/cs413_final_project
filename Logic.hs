@@ -12,17 +12,22 @@ comparator' x y = if (x < y) then [[One], [Zero], [One]]
             else if (x==y) then [[Zero], [One], [Zero]]
             else [[Zero], [Zero], [One]]
 
-mux :: Bit -> [Bit] -> [[Bit]] -> [[Bit]]
+mux :: [[Bit]] -> [[Bit]]
 -- when enable is Zero, output nothing
-mux Zero _  _         = []
-mux One select inputs = if (binaryToDecimal select < 0) then []
-        else if (binaryToDecimal select > length inputs) then []
-        else inputs !! (binaryToDecimal select) : []
+-- unsigned binary for selection values
+-- XML specification: [[Enable],[Selection],[Inputs]]
+mux ([Zero]:s:inputs) = []
+mux ([One]:s:inputs)  = if (binToDecimal s > length inputs) then []
+                        else inputs !! (binToDecimal s) : []
+mux _                 = []
 
-decoder :: Bit -> [Bit] -> [[Bit]]
+
+decoder :: [[Bit]] -> [[Bit]]
 -- when enable is Zero, output nothing
 -- unsigned binary for the selection values
 -- returned in format [bitx... bit2, bit1, bit0]
-decoder Zero _       = []
-decoder One select   = let xs = take ((length select)^2) $ repeat [Zero] in
-                       reverse $ take (binToDecimal select) xs ++ [[One]] ++ drop ((binToDecimal select) + 1) xs
+-- XML specification: [[Enable],[Selection]]
+decoder ([Zero]:s)  = []
+decoder ([One]:s:[])   = let xs = take (2^(length s)) $ repeat [Zero] in
+                       reverse $ take (binToDecimal s) xs ++ [[One]] ++ drop ((binToDecimal s) + 1) xs
+decoder _           = []

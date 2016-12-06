@@ -1,9 +1,13 @@
 import Bits
 
-pmos :: [[Bit]] -> [Bit] -> [[Bit]]
-pmos input [Zero] = input
-pmos _ _ = []
+-- XML specification: VOLTAGE BIT FIRST
+pmos :: [[Bit]] -> [[Bit]]
+pmos (x:xs)
+   | x == [Zero] = xs
+   | otherwise   = []
 
-nmos :: [[Bit]] -> [Bit] -> [[Bit]]
-nmos input [One] = input
-nmos _ _ = []
+
+nmos :: [[Bit]] -> [[Bit]]
+nmos (x:xs)
+  | x == [One] = xs
+  | otherwise  = []
