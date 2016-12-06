@@ -11,3 +11,10 @@ comparator _ = undefined
 comparator' x y = if (x < y) then [[One], [Zero], [One]]
             else if (x==y) then [[Zero], [One], [Zero]]
             else [[Zero], [Zero], [One]]
+
+decoder :: Bit -> [Bit] -> [[Bit]] -> [[Bit]]
+-- when enable is Zero, output nothing
+decoder Zero _  _         = []
+decoder One select inputs = if (binaryToDecimal select < 0) then []
+        else if (binaryToDecimal select > length inputs) then []
+        else inputs !! (binaryToDecimal select) : []
