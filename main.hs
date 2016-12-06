@@ -48,13 +48,16 @@ getCircuitXML args = readFile fileName where
       Nothing -> undefined
       Just str -> str
 
-getInputValueStrings :: LogicElement -> IO [String]
-getInputValueStrings n = let inputList = map (\n' -> name n') $ inputs n
+getInputValueStrings :: Circuit -> IO [String]
+getInputValueStrings n = let inputList = map (\n' -> name n') . (filter isInput) . inputs $ n
                          in forM inputList (\a -> do
                             putStrLn $ "Enter value for Input " ++ show a ++ ":"
                             value <- getLine
                             return value)
 
+isInput :: ConnectedElement -> Bool
+isInput (Input _ _ _ _) = True
+isInput _ = False
 
 stringToValue :: NumberBase -> String -> [Bit]
 stringToValue _ "0" = [Zero]

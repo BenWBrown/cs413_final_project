@@ -35,8 +35,9 @@ getCircuit = atTag "circuit" >>>
     circName <- getAttrValue "name" -< circ
     logics    <- listA getLogic                         -< circ
     inputs    <- listA (getConnectedElement "input")    -< circ
+    constants <- listA (getConnectedElement "constant") -< circ
     outputs   <- listA (getConnectedElement "output")   -< circ
-    returnA   -< (Circuit logics inputs outputs)
+    returnA   -< (Circuit logics (inputs ++ constants) outputs)
 
 getLogic = getChildren >>> isElem >>> hasName "logic" >>>
   proc logic -> do
