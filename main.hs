@@ -2,6 +2,7 @@ import Circuit
 import Bits
 import ArgumentBase
 import XMLParser
+import Conversions
 
 import System.Environment
 import System.Exit
@@ -64,4 +65,4 @@ runCircuit :: Circuit -> [[Bit]] -> [[Bit]]
 runCircuit _ _ = []
 
 displayOutputValues :: Circuit -> [[Bit]] -> NumberBase -> IO ()
-displayOutputValues _ _ _ = putStrLn "value for output 1: 42"
+displayOutputValues (Circuit _ _ outputs) values base = putStrLn "value for output 1: 42"

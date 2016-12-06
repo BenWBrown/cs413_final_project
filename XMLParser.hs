@@ -7,6 +7,7 @@ import Data.Map as M
 
 import Circuit
 import Bits
+import Conversions
 
 parseCircuit :: String -> IO Circuit
 parseCircuit string = fmap head $ runX (parseXML string >>> getCircuit )

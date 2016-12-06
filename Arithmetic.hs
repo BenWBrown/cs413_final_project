@@ -1,4 +1,5 @@
 import Bits
+import Conversions
 
 addB :: [[Bit]] -> [[Bit]]
 -- Adding 4 + 4 (0100 + 0100) -> 0 1000
