@@ -40,21 +40,6 @@ norB (x:xs) = foldr (liftA2' nor') x xs : []
 xorB (x:xs) = foldr (liftA2' xor') x xs : []
 xnorB (x:xs) = foldr (liftA2' xnor') x xs : []
 
-setCarry :: Int -> Int -> [Bit] -> [Bit]
-setCarry lenY lenX x = let x' = take (lenY - lenX) x
-                  in case head x' == Zero of
-                  True -> (take (lenX - (lenY - lenX)) $ repeat Zero) ++ x'
-                  False -> (take (lenX - (lenY - lenX)) $ repeat One) ++ x'
-
-
-addBits :: Int -> [[Bit]] -> [[Bit]]
--- ensures consistent bitwidth for both quotient and remainder
--- ex: [Zero, One] and bitwidth = 4 -> [Zero, Zero, Zero, One]
-addBits len (x:y:[])
-    | (length x) < len && (length y < len)  = ((take (len-length x) $ repeat $ head x) ++ x) : ((take (len-length y) $ repeat $ head y) ++ y) : []
-    | (length x) < len                       = ((take (len-length x) $ repeat $ head x) ++ x) : y : []
-    | (length y) < len                       = x : ((take (len-length y) $ repeat $ head y) ++ y) : []
-    | otherwise                              = (x:y:[])
 
 negatorB :: [[Bit]] -> [[Bit]]
 negatorB inpt = decIntToBinary $ map (* (-1)) (map binaryToDecimal inpt)
