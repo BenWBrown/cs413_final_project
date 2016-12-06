@@ -4,12 +4,12 @@
   <input name="circ input 2" bitwidth="4" connection="Hub 2"></input>
   <constant bitwidth="3" value="0x7" connection="Hub 3"></constant>
 
-  <!-- splitters and gates -->
-  <!-- <logic name="splitter 1" type="splitter">
-    <input name="splitter input 1" bitwidth="1" connection="Hub 1"></input>
-    <input name="splitter input 2" bitwidth="3" connection="Hub 3"></input>
-    <output name="splitter output 1" bitwidth="4" connection="Hub 4"></output>
-  </logic> -->
+  <!-- combinators and gates -->
+  <logic name="combinator 1" type="combinator" fan="2">
+    <input name="combinator input 1" bitwidth="1" connection="Hub 1"></input>
+    <input name="combinator input 2" bitwidth="3" connection="Hub 3"></input>
+    <output name="combinator output 1" bitwidth="4" connection="Hub 4"></output>
+  </logic>
   <logic name="AND gate" type="and">
     <input name="and input 1"  bitwidth="4" connection="Hub 2"></input>
     <input name="and input 2" bitwidth="4" connection="Hub 4"></input>

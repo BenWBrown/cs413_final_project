@@ -1,3 +1,5 @@
+module Update where
+
 import Circuit
 import Bits
 
@@ -57,16 +59,15 @@ allOutputsFilled (Circuit _ _ outs) = and (map (/=[]) (map value outs))
 
 --testing circuit
 
-foo :: [[Bit]] -> [[Bit]]
-foo x = [foldl orB [Zero, Zero, Zero, Zero] x]
+
 
 in1 = Input "and input 1" "4" "connection 1" []
 in2 = Input "and input 2" "4" "connection 2" []
 out1 = Output "and output" "4" "connection 3" []
-x = LogicElement foo [in1, in2] [out1]
+x = LogicElement orB [in1, in2] [out1]
 
-circIn1 = Input "input 1" "4" "connection 1" [] --[Zero, One, Zero, One]
-circIn2 = Input "input 2" "4" "connection 2" [] --[Zero, Zero, One, One]
+circIn1 = Input "input 1" "4" "connection 1" [Zero, One, Zero, One]
+circIn2 = Input "input 2" "4" "connection 2" [Zero, Zero, One, One]
 
 circOut1 = Output "output 1" "4" "connection 3" []
 

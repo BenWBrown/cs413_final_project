@@ -2,6 +2,7 @@ import Circuit
 import Bits
 import ArgumentBase
 import XMLParser
+import Update
 
 import System.Environment
 import System.Exit
@@ -60,8 +61,11 @@ stringToValue Binary s = binToBinary s
 stringToValue Decimal s = decToBinary s
 stringToValue Hex s = hexToBinary s
 
-runCircuit :: Circuit -> [[Bit]] -> [[Bit]]
-runCircuit _ _ = []
+valueToString :: NumberBase -> [Bit] -> String
+valueToString _ bitString = show . binaryToDecimal $ bitString --TODO: WRITE THIS
+
 
 displayOutputValues :: Circuit -> [[Bit]] -> NumberBase -> IO ()
-displayOutputValues _ _ _ = putStrLn "value for output 1: 42"
+displayOutputValues circuit outputBits base = do
+  putStrLn . show $ outputBits
+  return ()
