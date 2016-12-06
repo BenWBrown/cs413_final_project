@@ -55,7 +55,7 @@ getConnectedElement elementType = getChildren >>> isElem >>> hasName elementType
     bitWidth    <- getAttrValue "bitwidth" -< element
     connection  <- getAttrValue "connection" -< element
     valueString <- getAttrValue "value"      -< element
-    let value = decToBinary valueString
+    let value = decToBinary valueString --TODO: CONTROL BITWIDTH
     returnA -< if elementType == "input" then (Input name bitWidth connection value)
                else if elementType == "output" then (Output name bitWidth connection value)
                else (Constant name bitWidth connection value)

@@ -68,7 +68,6 @@ valueToString _ bitString = show . binaryToDecimal $ bitString --TODO: WRITE THI
 
 displayOutputValues :: Circuit -> [[Bit]] -> NumberBase -> IO ()
 displayOutputValues (Circuit _ _ outputs) values base = do
-  let list = zip (map (\x -> name x) outputs) (map (valueToString Binary) values) --TODO: CHANGE TO NumberBase
-  --forM list (\(name, value) -> putStrLn "hello")
-  putStrLn . show $ list
+  let list = zip (map (\x -> name x) outputs) (map (valueToString base) values)
+  forM list (\(name, value) -> putStrLn ("Value for output " ++ show name ++ ": " ++ show value))
   return ()
