@@ -1,12 +1,12 @@
 <circuit name="main">
   <input name="circ input 1" bitwidth="1" connection="Hub 1"></input>
   <input name="circ input 2" bitwidth="4" connection="Hub 2"></input>
-  <!-- <constant bitwidth="4" value="0" connection="Hub 3"></constant> -->
+  <constant bitwidth="4" value="0" connection="Hub 3"></constant>
 
   <logic name="OR gate" type="or">
     <input name="or input 1" bitwidth="4" connection="Hub 1"></input>
     <input name="or input 2" bitwidth="4" connection="Hub 2"></input>
-    <!-- <input name="or input 3" bitwidth="4" connection="Hub 3"></input> -->
+    <input name="or input 3" bitwidth="4" connection="Hub 3"></input>
     <output name="or output 1" bitwidth="4" connection="Hub 4"></output>
   </logic>
 
