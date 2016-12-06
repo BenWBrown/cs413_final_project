@@ -55,9 +55,6 @@ getInputValueStrings n = let inputList = map (\n' -> name n') . (filter isInput)
                             value <- getLine
                             return value)
 
-isInput :: ConnectedElement -> Bool
-isInput (Input _ _ _ _) = True
-isInput _ = False
 
 stringToValue :: NumberBase -> String -> [Bit]
 stringToValue _ "0" = [Zero]
@@ -70,4 +67,8 @@ valueToString _ bitString = show . binaryToDecimal $ bitString --TODO: WRITE THI
 
 
 displayOutputValues :: Circuit -> [[Bit]] -> NumberBase -> IO ()
-displayOutputValues (Circuit _ _ outputs) values base = putStrLn "value for output 1: 42"
+displayOutputValues (Circuit _ _ outputs) values base = do
+  let list = zip (map (\x -> name x) outputs) (map (valueToString Binary) values) --TODO: CHANGE TO NumberBase
+  --forM list (\(name, value) -> putStrLn "hello")
+  putStrLn . show $ list
+  return ()

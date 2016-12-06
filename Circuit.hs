@@ -43,3 +43,11 @@ outputs (LogicElement _ _ outputs) = outputs
 outputs (Circuit _ _ outputs) = outputs
 
 type Circuit = LogicElement
+
+isInput :: ConnectedElement -> Bool
+isInput (Input _ _ _ _) = True
+isInput _ = False
+
+isConstant :: ConnectedElement -> Bool
+isConstant (Constant _ _ _ _) = True
+isConstant _ = False

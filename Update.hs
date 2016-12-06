@@ -43,7 +43,9 @@ valueForConnection (Circuit logicElts ins _) name =
 
 
 updateInputs :: Circuit -> [[Bit]] -> Circuit
-updateInputs (Circuit logicElts ins outs) inputValues = Circuit logicElts (map newValue $ zip ins inputValues) outs
+updateInputs (Circuit logicElts ins outs) inputValues = Circuit logicElts (newIns ++ consts) outs where
+  newIns = map newValue $ zip (filter isInput ins) inputValues
+  consts = filter isConstant ins
 
 runCircuit :: Circuit -> [[Bit]] -> [[Bit]]
 runCircuit circuit ins = map value (outputs (runCircuit' (updateInputs circuit ins) circuit ))
