@@ -55,7 +55,12 @@ getConnectedElement elementType = getChildren >>> isElem >>> hasName elementType
     bitWidth    <- getAttrValue "bitwidth" -< element
     connection  <- getAttrValue "connection" -< element
     valueString <- getAttrValue "value"      -< element
-    let value = if elementType == "constant" then (signExtend (read bitWidth)) . decToBinary $ valueString else []
+    let value = if elementType == "constant" then (signExtend (read bitWidth)) . readValue $ valueString else []
     returnA -< if elementType == "input" then (Input name bitWidth connection value)
                else if elementType == "output" then (Output name bitWidth connection value)
                else (Constant name bitWidth connection value)
+
+readValue :: String -> [Bit]
+readValue ('0':'x':rest) = hexToBinary rest
+readValue ('0':'b':rest) = binToBinary rest
+readValue rest = decToBinary rest

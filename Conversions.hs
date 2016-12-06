@@ -2,6 +2,7 @@ module Conversions where
 
 import Bits
 import ArgumentBase
+import Data.Char
 
 decIntToBinary :: [Int] -> [[Bit]]
 decIntToBinary inpt = map decToBinary $ map show inpt
@@ -41,7 +42,7 @@ decToBinary _ = []
 
 
 hexToBinary :: String -> [Bit]
-hexToBinary x = binToBinary $ parseHex x
+hexToBinary x = binToBinary . parseHex . (map toUpper) $ x
 
 decToBinaryNegative :: Int -> [Bit]
 decToBinaryNegative x = plusOne $ flipBits x
