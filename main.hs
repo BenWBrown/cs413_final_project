@@ -3,6 +3,7 @@ import Bits
 import ArgumentBase
 import XMLParser
 import Update
+import Conversions
 
 import System.Environment
 import System.Exit
@@ -66,6 +67,4 @@ valueToString _ bitString = show . binaryToDecimal $ bitString --TODO: WRITE THI
 
 
 displayOutputValues :: Circuit -> [[Bit]] -> NumberBase -> IO ()
-displayOutputValues circuit outputBits base = do
-  putStrLn . show $ outputBits
-  return ()
+displayOutputValues (Circuit _ _ outputs) values base = putStrLn "value for output 1: 42"

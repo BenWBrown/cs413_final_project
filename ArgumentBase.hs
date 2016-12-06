@@ -1,9 +1,5 @@
 -- Functions required for stringToValue :: "NumberBase" -> String -> "Bit"
-module ArgumentBase
-(
-parseHex,
-hexChar,
-) where
+module ArgumentBase where
 
 parseHex :: String -> String
 -- Convert Hex String to base 10 Int
