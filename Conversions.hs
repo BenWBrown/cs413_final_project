@@ -21,11 +21,12 @@ binaryToHexString :: [Bit] -> String
 binaryToHexString = reverse . binaryToHexString' . reverse
 
 binaryToHexString' :: [Bit] -> String
+binaryToHexString' [] = ""
 binaryToHexString' (w:x:y:z:rest) = ((hexCharOf . reverse $ (w:x:y:z:[])) ++ binaryToHexString' rest)
 binaryToHexString' rest = hexCharOf . (signExtend 4) . reverse $ rest
 
 hexCharOf :: [Bit] -> String
-hexCharOf = charHex . binaryToString
+hexCharOf = charToHex . binaryToString
 
 binToBinary :: String -> [Bit]
 -- from a binary string in Twos Complement to a Twos Complement string of bits

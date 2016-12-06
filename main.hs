@@ -63,7 +63,9 @@ stringToValue Decimal s = decToBinary s
 stringToValue Hex s = hexToBinary s
 
 valueToString :: NumberBase -> [Bit] -> String
-valueToString _ bitString = show . binaryToDecimal $ bitString --TODO: WRITE THIS
+valueToString Binary bitString = binaryToString bitString
+valueToString Decimal bitString = show . binaryToDecimal $ bitString
+valueToString Hex bitString = binaryToHexString bitString
 
 
 displayOutputValues :: Circuit -> [[Bit]] -> NumberBase -> IO ()
