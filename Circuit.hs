@@ -23,18 +23,13 @@ data ConnectedElement = Input {
 } | Constant {
       name :: String,
       bitWidth :: String,
-<<<<<<< Updated upstream
       connection :: String,
       value :: [Bit]
 } deriving (Show)
 
 instance Show (a -> b) where
   show _ = "<function>"
-=======
-      value :: [Bit], --value may or may not start in base 2. value :: toBin v?
-      connection :: String
-}deriving (Show)
->>>>>>> Stashed changes
+
 
 data LogicElement = LogicElement ([[Bit]] -> [[Bit]]) [ConnectedElement] [ConnectedElement]
                   | Circuit [LogicElement] [ConnectedElement] [ConnectedElement]
