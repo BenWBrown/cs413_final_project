@@ -26,10 +26,12 @@ splitter' :: [Int] -> [Bit] -> [[Bit]]
 -- 3 - [One]
 -- 4 - [One]
 -- 5 - [Zero]
-splitter' order inputs = let emptyList = take ((foldr max 0 order)+1) $ repeat [] in
-                        let zipped = zip order inputs in
-                        filter (not . null) $ helper zipped emptyList
-
+splitter' order inputs
+  | length order < length inputs = [[]]
+  | (foldr max 0 order)+1 > length inputs = [[]]
+  | otherwise =       let emptyList = take ((foldr max 0 order)+1) $ repeat [] in
+                      let zipped = zip order inputs in
+                      filter (not . null) $ helper zipped emptyList
 
 
 helper :: [(Int, Bit)] -> [[Bit]] -> [[Bit]]
