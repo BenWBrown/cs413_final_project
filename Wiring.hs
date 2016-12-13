@@ -13,8 +13,10 @@ nmos (x:xs)
   | x == [One] = xs
   | otherwise  = []
 
+splitter :: [Int] -> [[Bit]] -> [[Bit]]
+splitter ints bitStrings = splitter' ints (head bitStrings)
 
-splitter :: [Int] -> [Bit] -> [[Bit]]
+splitter' :: [Int] -> [Bit] -> [[Bit]]
 -- input: [[0, 0, 1, 2, 1, 3, 4, 5], [Zero, One, Zero, Zero, One, One, One, Zero]]
 -- zipped: [(0,Zero),(0,One),(1,Zero),(2,Zero),(1,One),(3,One),(4,One),(5,Zero)]
 -- result: [[Zero, One], [Zero, One], [Zero], [One], [One], [Zero]]
@@ -24,9 +26,10 @@ splitter :: [Int] -> [Bit] -> [[Bit]]
 -- 3 - [One]
 -- 4 - [One]
 -- 5 - [Zero]
-splitter order inputs = let emptyList = take ((foldr max 0 order)+1) $ repeat [] in
+splitter' order inputs = let emptyList = take ((foldr max 0 order)+1) $ repeat [] in
                         let zipped = zip order inputs in
                         filter (not . null) $ helper zipped emptyList
+
 
 
 helper :: [(Int, Bit)] -> [[Bit]] -> [[Bit]]
