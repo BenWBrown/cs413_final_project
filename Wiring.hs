@@ -17,9 +17,9 @@ splitter :: [Int] -> [[Bit]] -> [[Bit]]
 splitter ints bitStrings = splitter' ints (head bitStrings)
 
 splitter' :: [Int] -> [Bit] -> [[Bit]]
--- input: [[0, 0, 1, 2, 1, 3, 4, 5], [Zero, One, Zero, Zero, One, One, One, Zero]]
--- zipped: [(0,Zero),(0,One),(1,Zero),(2,Zero),(1,One),(3,One),(4,One),(5,Zero)]
--- result: [[Zero, One], [Zero, One], [Zero], [One], [One], [Zero]]
+-- input: [[0, 0, 1, 2, 1], [Zero, One, Zero, Zero, One]]
+-- zipped: [(0,Zero),(0,One),(1,Zero),(2,Zero),(1,One)]
+-- result: [[Zero, One], [Zero, One], [Zero]]
 splitter' order inputs
   | length order < length inputs = [[]]
   | (foldr max 0 order)+1 > length inputs = [[]]
