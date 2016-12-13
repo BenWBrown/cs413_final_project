@@ -7,7 +7,6 @@ pmos (x:xs)
    | x == [Zero] = xs
    | otherwise   = []
 
-
 nmos :: [[Bit]] -> [[Bit]]
 nmos (x:xs)
   | x == [One] = xs
@@ -22,7 +21,6 @@ splitter' :: [Int] -> [Bit] -> [[Bit]]
 -- result: [[Zero, One], [Zero, One], [Zero]]
 splitter' order inputs
   | length order < length inputs = [[]]
-  | (foldr max 0 order)+1 > length inputs = [[]]
   | otherwise =       let emptyList = take ((foldr max 0 order)+1) $ repeat [] in
                       let zipped = zip order inputs in
                       helper zipped emptyList
