@@ -11,7 +11,7 @@ comparator :: [[Bit]] -> [[Bit]]
 comparator (x:y:[]) = comparator' (binaryToDecimal x) (binaryToDecimal y)
 comparator _ = undefined
 
-comparator' x y = if (x < y) then [[One], [Zero], [One]]
+comparator' x y = if (x > y) then [[One], [Zero], [Zero]]
             else if (x==y) then [[Zero], [One], [Zero]]
             else [[Zero], [Zero], [One]]
 
