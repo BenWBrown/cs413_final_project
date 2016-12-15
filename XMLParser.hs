@@ -9,6 +9,7 @@ import Circuit
 import Bits
 import Conversions
 import Wiring
+import Logic
 
 parseCircuit :: String -> IO Circuit
 parseCircuit string = fmap head $ runX (parseXML string >>> getCircuit )
@@ -22,7 +23,8 @@ functionMap = fromList [
   ("or", orB),
   ("nor", norB),
   ("xor", xorB),
-  ("xnor", xnorB)]
+  ("xnor", xnorB),
+  ("negator", negatorB)]
 
 parseXML string = readString [ withValidate no, withRemoveWS yes] string
 parseXML' file = readDocument [ withValidate no, withRemoveWS yes] file

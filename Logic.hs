@@ -1,3 +1,5 @@
+module Logic where
+  
 import Bits
 import Conversions
 

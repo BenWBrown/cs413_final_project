@@ -1,0 +1,12 @@
+<circuit name="main">
+  <!-- inputs and constants -->
+  <input name="circ input 1" bitwidth="4" connection="Hub 1"></input>
+
+  <output name="circ output 2" bitwidth="4" connection="Hub 2"></output>
+
+  <logic name="negator" type="negator">
+    <input name="and input 1" bitwidth="4" connection="Hub 1"></input>
+    <output name="and output 1" bitwidth="4" connection="Hub 2"></output>
+  </logic>
+  
+</circuit>
