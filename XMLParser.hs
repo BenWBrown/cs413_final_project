@@ -26,7 +26,8 @@ functionMap = fromList [
   ("xnor", xnorB),
   ("negator", negatorB),
   ("comparator", comparator),
-  ("mux", mux)]
+  ("mux", mux),
+  ("decoder", decoder)]
 
 parseXML string = readString [ withValidate no, withRemoveWS yes] string
 parseXML' file = readDocument [ withValidate no, withRemoveWS yes] file
