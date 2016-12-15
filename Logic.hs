@@ -1,10 +1,11 @@
 module Logic where
-  
+
 import Bits
 import Conversions
 
 negatorB :: [[Bit]] -> [[Bit]]
-negatorB inpt = decIntToBinary $ map (* (-1)) (map binaryToDecimal inpt)
+negatorB (x:xs) = let (y:ys) = decIntToBinary $ map (* (-1)) (map binaryToDecimal (x:xs)) in
+                  signExtend (length x) y : []
 
 comparator :: [[Bit]] -> [[Bit]]
 comparator (x:y:[]) = comparator' (binaryToDecimal x) (binaryToDecimal y)
