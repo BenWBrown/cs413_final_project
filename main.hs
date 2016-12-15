@@ -14,6 +14,8 @@ import Control.Monad
 
 data NumberBase = Binary | Decimal | Hex deriving Show
 
+maxRecursion = 10000
+
 usage = "usage: runhaskell main.hs [-bdh] filename.xml"
 
 main :: IO ()
@@ -29,7 +31,7 @@ main = do
     circuit <- parseCircuit circuitXML
     inputValueStrings <- getInputValueStrings circuit
     let inputValues = map (stringToValue numberBase) inputValueStrings
-    let outputValues = runCircuit circuit inputValues
+    let outputValues = runCircuit maxRecursion circuit inputValues
     displayOutputValues circuit outputValues numberBase
 
 getNumberBase :: [String] -> NumberBase

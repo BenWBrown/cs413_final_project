@@ -4,6 +4,7 @@ import Circuit
 import Bits
 
 import Data.List
+import Control.Exception
 
 update :: Circuit -> Circuit -> Circuit
 update containingCircuit (LogicElement f ins outs) = LogicElement f newInputs newOutputs where
@@ -20,19 +21,9 @@ update' containingCircuit elt = case valueForConnection containingCircuit (conne
     Just x -> newValue (elt, x)
     Nothing -> elt
 
-    -- (\input -> case valueForConnection containingCircuit (connection input) of
-    --   Just x -> newValue (input, x)
-    --   Nothing -> input)
-
--- foo input = case valueForConnection containingCircuit (connection input) of
---   Just x -> newValue (input, x)
---   Nothing -> input
-
-
 newValue :: (ConnectedElement, [Bit]) -> ConnectedElement
 newValue ((Output name bitwidth connection _), value) = Output name bitwidth connection value
 newValue ((Input name bitwidth connection _), value) = Input name bitwidth connection value
---newValue Constant _ _ _ _ = un
 
 valueForConnection :: Circuit -> String -> Maybe [Bit]
 valueForConnection (LogicElement _ ins outs) name = fmap value (find (\x -> connection x == name) outs)
@@ -47,17 +38,23 @@ updateInputs (Circuit logicElts ins outs) inputValues = Circuit logicElts (newIn
   newIns = map newValue $ zip (filter isInput ins) inputValues
   consts = filter isConstant ins
 
-runCircuit :: Circuit -> [[Bit]] -> [[Bit]]
-runCircuit circuit ins = map value (outputs (runCircuit' (updateInputs circuit ins) circuit ))
+runCircuit :: Int -> Circuit -> [[Bit]] -> [[Bit]]
+runCircuit depth circuit ins = map value (outputs (runCircuit' depth (updateInputs circuit ins) circuit ))
 
-runCircuit' :: Circuit -> Circuit -> Circuit
-runCircuit' containingCircuit circuit =
+runCircuit' :: Int -> Circuit -> Circuit -> Circuit
+runCircuit' 0 _ _ = throw MaxRecursionException
+runCircuit' depth containingCircuit circuit =
   case allOutputsFilled circuit of
-    False -> runCircuit' containingCircuit (update containingCircuit circuit)
+    False -> runCircuit' (depth -1) containingCircuit (update containingCircuit circuit)
     True -> circuit
 
 allOutputsFilled :: Circuit -> Bool
 allOutputsFilled (Circuit _ _ outs) = and (map (/=[]) (map value outs))
+
+data MaxRecursionException = MaxRecursionException
+    deriving Show
+
+instance Exception MaxRecursionException
 
 --testing circuit
 
