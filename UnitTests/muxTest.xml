@@ -1,0 +1,18 @@
+<circuit name="main">
+  <!-- inputs and constants -->
+  <input name="circ - WE" bitwidth="1" connection="Hub 1"></input>
+  <input name="circ - selection" bitwidth="1" connection="Hub 2"></input>
+  <input name="circ - mux input 1" bitwidth="1" connection="Hub 3"></input>
+  <input name="circ - mux input 2" bitwidth="1" connection="Hub 4"></input>
+
+  <output name="circuit output" bitwidth="1" connection="Hub 5"></output>
+
+  <logic name="mux" type="mux">
+    <input name="WE" bitwidth="1" connection="Hub 1"></input>
+    <input name="selection" bitwidth="1" connection="Hub 2"></input>
+    <input name="mux input 1" bitwidth="1" connection="Hub 3"></input>
+    <input name="mux input 2" bitwidth="1" connection="Hub 4"></input>
+    <output name="circuit output" bitwidth="1" connection="Hub 5"></output>
+  </logic>
+
+</circuit>
