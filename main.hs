@@ -30,10 +30,15 @@ main = do
     let numberBase = getNumberBase args
     circuitXML <- getCircuitXML args
     circuit <- parseCircuit circuitXML
-    inputValueStrings <- getInputValueStrings circuit
-    let inputValues = map (stringToValue numberBase) inputValueStrings
-    let outputValues = runCircuit maxRecursion circuit inputValues
-    displayOutputValues circuit outputValues numberBase
+    let valid = and (map (validateConnection circuit) (allConnections circuit))
+    if not valid then do
+      putStrLn "Error: incompatible widths"
+      exitWith . ExitFailure $ 1
+    else do
+      inputValueStrings <- getInputValueStrings circuit
+      let inputValues = map (stringToValue numberBase) inputValueStrings
+      let outputValues = runCircuit maxRecursion circuit inputValues
+      displayOutputValues circuit outputValues numberBase
 
 getNumberBase :: [String] -> NumberBase
 getNumberBase x
