@@ -1,0 +1,20 @@
+<circuit name="main">
+  <!-- crash when WE set to 0 -->
+
+  <!-- inputs and constants -->
+  <input name="circ - div input 1" bitwidth="4" connection="Hub 1"></input>
+  <input name="circ - div input 2" bitwidth="4" connection="Hub 2"></input>
+
+  <output name="circ - carry" bitwidth="4" connection="Hub 3"></output>
+  <output name="circ - output" bitwidth="4" connection="Hub 4"></output>
+
+  <logic name="divider" type="divider">
+    <input name="div input 1" bitwidth="4" connection="Hub 1"></input>
+    <input name="div input 2" bitwidth="4" connection="Hub 2"></input>
+
+    <output name="output 1" bitwidth="4" connection="Hub 3"></output>
+    <output name="output 2" bitwidth="4" connection="Hub 4"></output>
+
+  </logic>
+
+</circuit>

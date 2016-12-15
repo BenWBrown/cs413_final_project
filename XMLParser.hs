@@ -10,6 +10,7 @@ import Bits
 import Conversions
 import Wiring
 import Logic
+import Arithmetic
 
 parseCircuit :: String -> IO Circuit
 parseCircuit string = fmap head $ runX (parseXML string >>> getCircuit )
@@ -27,7 +28,9 @@ functionMap = fromList [
   ("negator", negatorB),
   ("comparator", comparator),
   ("mux", mux),
-  ("decoder", decoder)]
+  ("decoder", decoder),
+  ("multiplier", multiplyB),
+  ("divider", divideB)]
 
 parseXML string = readString [ withValidate no, withRemoveWS yes] string
 parseXML' file = readDocument [ withValidate no, withRemoveWS yes] file

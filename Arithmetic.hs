@@ -1,3 +1,4 @@
+module Arithmetic where
 import Bits
 import Conversions
 
@@ -21,22 +22,24 @@ subB (x:y:[]) = let (x':y':[]) = map binaryToDecimal (x:y:[])
 multiplyB :: [[Bit]] -> [[Bit]]
 -- returns [[carry out - upper bits],[output]
 multiplyB (x:xs) = let y = decToBinary $  show (foldr (*) 1 $ map binaryToDecimal (x:xs))
-                  in setCarry (length y) (length x) y : drop (length y - length x) y : []
+                  in setCarry x y : drop (length y - length x) y : []
 
 
 divideB :: [[Bit]] -> [[Bit]]
--- returns [[quotient, remainder]]
+-- returns [[quotient], [remainder]]
 divideB (x:y) = let (x':y':[]) = map binaryToDecimal (x:y)
                 in addBits (length x) $ decIntToBinary $ (div x' y') : (mod x' y') : []
 
 
   -- Helpers --
-setCarry :: Int -> Int -> [Bit] -> [Bit]
+setCarry :: [Bit] -> [Bit] -> [Bit]
 -- for multiplication
-setCarry lenY lenX x = let x' = take (lenY - lenX) x
-                  in case head x' == Zero of
-                  True -> (take (lenX - (lenY - lenX)) $ repeat Zero) ++ x'
-                  False -> (take (lenX - (lenY - lenX)) $ repeat One) ++ x'
+setCarry x y
+  | (length x) == (length y) = decToBinary $ show (foldr (+) 0 (map binaryToDecimal $ x:y:[] ))
+  | otherwise                = let x' = take ((length y) - (length x)) x
+                               in case head x' == Zero of
+                               True -> (take ((length x) - ((length y) - (length x))) $ repeat Zero) ++ x'
+                               False -> (take ((length x) - ((length y) - (length x))) $ repeat One) ++ x'
 
 
 addBits :: Int -> [[Bit]] -> [[Bit]]
