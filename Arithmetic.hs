@@ -6,9 +6,11 @@ addB :: [[Bit]] -> [[Bit]]
 -- Adding 4 + 4 (0100 + 0100) -> 0 1000
 -- the carry-out '0' is necesary to denote positive number
 addB (x:xs) = let (y:ys) = decToBinary $ show (foldr (+) 0 $ map binaryToDecimal (x:xs))
-             in case length (y:ys) > length x of
-             True -> [y] : ys : []
-             False -> (y:ys) : []
+             in addB' (y:ys) (length x)
+
+addB' (y:ys) x = if (x==length(y:ys)) then [Zero] : (y:ys) : []
+                 else if (x >length(y:ys)) then (y:ys) : []
+                 else [y] : ys : []
 
 
 subB :: [[Bit]] -> [[Bit]]

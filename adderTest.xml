@@ -1,0 +1,20 @@
+<circuit name="main">
+  <!-- incorrect when negative -->
+
+  <!-- inputs and constants -->
+  <input name="circ - add input 1" bitwidth="4" connection="Hub 1"></input>
+  <input name="circ - add input 2" bitwidth="4" connection="Hub 2"></input>
+
+  <output name="circ - carry" bitwidth="1" connection="Hub 3"></output>
+  <output name="circ - output" bitwidth="4" connection="Hub 4"></output>
+
+  <logic name="adder" type="adder">
+    <input name="add input 1" bitwidth="4" connection="Hub 1"></input>
+    <input name="add input 2" bitwidth="4" connection="Hub 2"></input>
+
+    <output name="output 1" bitwidth="1" connection="Hub 3"></output>
+    <output name="output 2" bitwidth="4" connection="Hub 4"></output>
+
+  </logic>
+
+</circuit>
