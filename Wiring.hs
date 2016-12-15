@@ -1,3 +1,5 @@
+module Wiring where
+
 import Bits
 import Data.Sequence (fromList, update, Seq)
 

@@ -10,6 +10,12 @@
     <input name="combinator input 2" bitwidth="3" connection="Hub 3"></input>
     <output name="combinator output 1" bitwidth="4" connection="Hub 4"></output>
   </logic>
+  <logic name="splitter" type="splitter">
+    <input name="" bitwidth="4" connection=""></input>
+    <output name="split out 1" bitwidth="1" connection="" whichBits="1"></output>
+    <output name="split out 2" bitwidth="2" connection="" whichBits="0,2"></output>
+    <output name="split out 3" bitwidth="1" connection="" whichBits="3"></output>
+  </logic>
   <logic name="AND gate" type="and">
     <input name="and input 1"  bitwidth="4" connection="Hub 2"></input>
     <input name="and input 2" bitwidth="4" connection="Hub 4"></input>
