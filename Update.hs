@@ -45,7 +45,7 @@ runCircuit' :: Int -> Circuit -> Circuit -> Circuit
 runCircuit' 0 _ _ = throw MaxRecursionException
 runCircuit' depth containingCircuit circuit =
   case allOutputsFilled circuit of
-    False -> runCircuit' (depth -1) containingCircuit (update containingCircuit circuit)
+    False -> runCircuit' (depth -1) (update containingCircuit circuit) (update containingCircuit circuit)
     True -> circuit
 
 allOutputsFilled :: Circuit -> Bool

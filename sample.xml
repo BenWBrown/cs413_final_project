@@ -1,37 +1,30 @@
 <circuit name="main">
   <!-- inputs and constants -->
-  <input name="circ input 1" bitwidth="1" connection="Hub 1"></input>
+  <input name="circ input 1" bitwidth="4" connection="Hub 1"></input>
   <input name="circ input 2" bitwidth="4" connection="Hub 2"></input>
-  <constant bitwidth="3" value="0x7" connection="Hub 3"></constant>
 
-  <!-- combinators and gates -->
-  <logic name="combinator 1" type="combinator" fan="2">
-    <input name="combinator input 1" bitwidth="1" connection="Hub 1"></input>
-    <input name="combinator input 2" bitwidth="3" connection="Hub 3"></input>
-    <output name="combinator output 1" bitwidth="4" connection="Hub 4"></output>
-  </logic>
-  <logic name="splitter" type="splitter">
-    <input name="" bitwidth="4" connection=""></input>
-    <output name="split out 1" bitwidth="1" connection="" whichBits="1"></output>
-    <output name="split out 2" bitwidth="2" connection="" whichBits="0,2"></output>
-    <output name="split out 3" bitwidth="1" connection="" whichBits="3"></output>
-  </logic>
+  <output name="circ output 1" bitwidth="4" connection="Hub 3"></output>
+  <output name="circ output 2" bitwidth="4" connection="Hub 6"></output>
+
   <logic name="AND gate" type="and">
-    <input name="and input 1"  bitwidth="4" connection="Hub 2"></input>
-    <input name="and input 2" bitwidth="4" connection="Hub 4"></input>
-    <output name="and output 1" bitwidth="4" connection="Hub 5"></output>
+    <input name="and input 1" bitwidth="4" connection="Hub 1"></input>
+    <input name="and input 2" bitwidth="4" connection="Hub 2"></input>
+    <output name="and output 1" bitwidth="4" connection="Hub 3"></output>
   </logic>
+
+  <logic name="inverter" type="not">
+    <input name="inverter input 1" bitwidth="4" connection="Hub 3"></input>
+    <output name="inverter output 1" bitwidth="4" connection="Hub 4"></output>
+  </logic>
+
+  <logic name="inverter" type="not">
+    <input name="inverter input 1" bitwidth="4" connection="Hub 4"></input>
+    <output name="inverter output 1" bitwidth="4" connection="Hub 5"></output>
+  </logic>
+
   <logic name="inverter" type="not">
     <input name="inverter input 1" bitwidth="4" connection="Hub 5"></input>
     <output name="inverter output 1" bitwidth="4" connection="Hub 6"></output>
   </logic>
-  <logic name="OR gate" type="or">
-    <input name="or input 1" bitwidth="4" connection="Hub 2"></input>
-    <input name="or input 2" bitwidth="4" connection="Hub 7"></input>
-    <output name="or output 1" bitwidth="4" connection="Hub 7"></output>
-  </logic>
 
-  <!-- output -->
-  <output name="circ output 1" bitwidth="4" connection="Hub 7"></output>
-  <output name="circ output 2" bitwidth="4" connection="Hub 2"></output>
 </circuit>
