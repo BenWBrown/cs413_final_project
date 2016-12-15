@@ -4,6 +4,7 @@ import ArgumentBase
 import XMLParser
 import Update
 import Conversions
+import Validate
 
 import System.Environment
 import System.Exit
