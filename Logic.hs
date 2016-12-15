@@ -16,10 +16,10 @@ comparator' x y = if (x > y) then [[One], [Zero], [Zero]]
             else [[Zero], [Zero], [One]]
 
 mux :: [[Bit]] -> [[Bit]]
--- [[ENABLE, SELECTION VALUE, inputs]]
+-- XML speficiation: [[ENABLE], [SELECTION VALUE], [input 1], ... [input n]]
 -- when enable is Zero, output nothing
 -- unsigned binary for selection values
--- XML specification: [[Enable],[Selection],[Inputs]]
+
 mux ([Zero]:s:inputs) = []
 mux ([One]:s:inputs)  = if (binToDecimal s > length inputs) then []
                         else inputs !! (binToDecimal s) : []
