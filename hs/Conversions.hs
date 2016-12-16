@@ -7,6 +7,9 @@ import Data.Char
 decIntToBinary :: [Int] -> [[Bit]]
 decIntToBinary inpt = map decToBinary $ map show inpt
 
+decIntToBinary' :: Int -> [Bit]
+decIntToBinary' inpt = decToBinary $ show inpt
+
 -- BIN [BIT] --> DEC INT * TWOS COMPLEMENT
 binaryToDecimal :: [Bit] -> Int
 binaryToDecimal (x:xs) = case x == One of
@@ -75,3 +78,6 @@ decToBin x =  (decToBin $ x `div` 2) ++ (show $ x `mod` 2)
 signExtend :: Int -> [Bit] -> [Bit]
 signExtend n bitstring | n < length bitstring = undefined
                        | otherwise = (take (n - length bitstring) (repeat . head $ bitstring)) ++ bitstring
+
+signExtend' :: Int -> [Bit] -> [Bit]
+signExtend' n bitstring = (take (n - length bitstring) (repeat . head $ bitstring)) ++ bitstring

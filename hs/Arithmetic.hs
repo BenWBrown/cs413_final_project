@@ -5,33 +5,34 @@ import Conversions
 addB :: [[Bit]] -> [[Bit]]
 -- Adding 4 + 4 (0100 + 0100) -> 0 1000
 -- the carry-out '0' is necesary to denote positive number
-addB (x:xs) = let (y:ys) = decToBinary $ show (foldr (+) 0 $ map binaryToDecimal (x:xs))
-             in addB' (y:ys) (length x)
+addB (x:xs) = let y = decToBinary $ show (foldr (+) 0 $ map binToDecimal (x:xs))
+              in addB' y (length x)
 
-addB' (y:ys) x = if (x==length(y:ys)) then [Zero] : (y:ys) : []
-                 else if (x >length(y:ys)) then (y:ys) : []
-                 else [y] : ys : []
-
+addB' y x = if (x < length(y)) then [One] : (reverse $ take x $ reverse y) : []
+                 else [Zero] : signExtend x y : []
+                --  else if (x >length(y:ys)) then (y:ys) : []
 
 subB :: [[Bit]] -> [[Bit]]
--- returns [[upper bit carry],[lower bits]
-subB (x:y:[]) = let (x':y':[]) = map binaryToDecimal (x:y:[])
-                in case length (head $ decIntToBinary $ x' - y' : []) > (length x) of
-                    True -> take 1 (head $ decIntToBinary $ x' - y' : []) : drop 1 (head $ decIntToBinary $ x' - y' : []) : []
-                    False -> decIntToBinary $ x' - y' : []
+subB (x:y:[]) = let (x':y':[]) = map binToDecimal (x:y:[])
+                 in case (x' - y' < 0) of
+                   True -> [One] : signExtend (length x) (decIntToBinary' (x'-y')) : []
+                   False -> [Zero] : signExtend (length x) (decIntToBinary' (x'-y')) : []
 
 
 multiplyB :: [[Bit]] -> [[Bit]]
--- returns [[carry out - upper bits],[output]
-multiplyB (x:xs) = let y = decToBinary $  show (foldr (*) 1 $ map binaryToDecimal (x:xs))
-                  in setCarry x y : drop (length y - length x) y : []
+multiplyB (x:y:[]) = let (x':y':[]) = map binToDecimal (x:y:[])
+                     in case (length x * 2) >= length (decIntToBinary' $ x' * y') of
+                       True -> multiplyB' $ splitAt (length x) $ signExtend' (length x * 2) (decIntToBinary' $ x' * y')
+                       False -> multiplyB' $ splitAt (length x) $ signExtend' (length x * 2) (tail $ decIntToBinary' $ x' * y')
+
+multiplyB' :: ([Bit],[Bit]) -> [[Bit]]
+multiplyB' x = fst x : snd x : []
 
 
 divideB :: [[Bit]] -> [[Bit]]
 -- returns [[quotient], [remainder]]
-divideB (x:y) = let (x':y':[]) = map binaryToDecimal (x:y)
+divideB (x:y) = let (x':y':[]) = map binToDecimal (x:y)
                 in addBits (length x) $ decIntToBinary $ (div x' y') : (mod x' y') : []
-
 
   -- Helpers --
 setCarry :: [Bit] -> [Bit] -> [Bit]
