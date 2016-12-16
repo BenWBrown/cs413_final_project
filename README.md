@@ -1,8 +1,8 @@
 # cs413_final_project: Circuit Simulator
 
 ### Authors
-  Ben Brown
-  Ellen Sartorelli
+  Ben Brown  
+  Ellen Sartorelli  
 
 ### About
   Our program will take an XML representation of a circuit (see below for specification), parse it, then run it. When running the circuit, the program will prompt the user for the values to any circuit inputs, simulate the circuit, then display the output values. Values can be inputted and displayed as binary, decimal, or hex. Included in the *samples* folder are sample XML files to run.
