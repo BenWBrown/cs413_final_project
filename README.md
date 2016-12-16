@@ -27,7 +27,7 @@
   Sequential logic / memory elements.  
 
 ### XML Specification: Context Free Grammar
-  CIRCUIT       -> <circuit> ELEMENTS </circuit>  
+  CIRCUIT       -> \<circuit\> ELEMENTS \</circuit\>  
   ELEMENTS      -> ELEMENT ELEMENTS | EPSILON  
   ELEMENT       -> INPUT | OUTPUT | CONSTANT | LOGIC  
   INPUT         -> <input FIELDS ></input>  
