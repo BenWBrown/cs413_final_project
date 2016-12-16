@@ -8,12 +8,12 @@
   Our program will take an XML representation of a circuit (see below for specification), parse it, then run it. When running the circuit, the program will prompt the user for the values to any circuit inputs, simulate the circuit, then display the output values. Values can be inputted and displayed as binary, decimal, or hex. Included in the *samples* folder are sample XML files to run.
 
 ### Dependencies
-  HXT
+  HXT  
     install using: cabal install hxt
     documentation: https://hackage.haskell.org/package/hxt-9.3.1.16/docs/Text-XML-HXT-Core.html
 
 ### Usage
-   run on the command line: runhaskell main.hs [-bdh] path/to/circuit.xml
+   run on the command line: runhaskell main.hs [-bdh] path/to/circuit.xml  
    -b: inputs / outputs specified in binary
    -d: inputs / outputs specified in two's complement encoded decimal
    -h: inputs / outputs specified in unsigned hex
