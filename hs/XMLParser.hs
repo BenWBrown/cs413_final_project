@@ -31,7 +31,9 @@ functionMap = fromList [
   ("decoder", decoder),
   ("multiplier", multiplyB),
   ("divider", divideB),
-  ("adder", addB)]
+  ("adder", addB),
+  ("pmos", pmos),
+  ("nmons", nmos)]
 
 parseXML string = readString [ withValidate no, withRemoveWS yes] string
 parseXML' file = readDocument [ withValidate no, withRemoveWS yes] file
