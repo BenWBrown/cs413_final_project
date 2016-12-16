@@ -57,9 +57,9 @@ getCircuitXML args = readFile fileName where
       Just str -> str
 
 getInputValueStrings :: Circuit -> IO [String]
-getInputValueStrings n = let inputList = map (\n' -> name n') . (filter isInput) . inputs $ n
-                         in forM inputList (\a -> do
-                            putStrLn $ "Enter value for Input " ++ show a ++ ":"
+getInputValueStrings n = let inputList = map (\n' -> (name n', bitWidth n')) . (filter isInput) . inputs $ n
+                         in forM inputList (\(a, width) -> do
+                            putStr $ "Enter value for Input " ++ show a ++ " (" ++ show width ++ " bits): "
                             value <- getLine
                             return value)
 
