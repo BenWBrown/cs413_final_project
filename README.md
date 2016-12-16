@@ -9,40 +9,40 @@
 
 ### Dependencies
   HXT  
-    install using: cabal install hxt
-    documentation: https://hackage.haskell.org/package/hxt-9.3.1.16/docs/Text-XML-HXT-Core.html
+    install using: cabal install hxt  
+    documentation: https://hackage.haskell.org/package/hxt-9.3.1.16/docs/Text-XML-HXT-Core.html  
 
 ### Usage
    run on the command line: runhaskell main.hs [-bdh] path/to/circuit.xml  
-   -b: inputs / outputs specified in binary
-   -d: inputs / outputs specified in two's complement encoded decimal
-   -h: inputs / outputs specified in unsigned hex
+   -b: inputs / outputs specified in binary  
+   -d: inputs / outputs specified in two's complement encoded decimal  
+   -h: inputs / outputs specified in unsigned hex  
 
 ### Current Features
-  Combinatorial logic including transistors, logic gates, inverters, muxes / decoders, splitters, and arithmetic elements.
+  Combinatorial logic including transistors, logic gates, inverters, muxes / decoders, splitters, and arithmetic elements.  
 
 ### Future Features
-  Nested circuits.
-  GUI.
-  Sequential logic / memory elements.
+  Nested circuits.  
+  GUI.  
+  Sequential logic / memory elements.  
 
 ### XML Specification: Context Free Grammar
-  CIRCUIT       -> <circuit> ELEMENTS </circuit>
-  ELEMENTS      -> ELEMENT ELEMENTS | EPSILON
-  ELEMENT       -> INPUT | OUTPUT | CONSTANT | LOGIC
-  INPUT         -> <input FIELDS ></input>
-  OUTPUT        -> <output FIELDS ></output>
-  CONSTANT      -> <constant FIELDS ></constant>
-  LOGIC         -> <logic FIELDS > ELEMENTS </logic>
-  FIELDS        -> FIELD FIELDS | EPSILON
-  FIELD         -> NAME | TYPE | BITWIDTH | CONNECTION | WHICHBITS
-  NAME          -> name=”ANYSTRING”
-  TYPE          -> type=”TYPESTRING”
-  TYPESTRING    -> not | and | nand | or | nor | xor | xnor | negator | comparator | mux | decoder | multiplier | divider | adder | pmos | nmons
-  BITWIDTH      -> bitwidth=”NUMBER”
-  CONNECTION    -> connection=”ANYSTRING”
-  WHICHBITS     -> whichBits=”NUMBERLIST”
-  NUMBERLIST    -> NUMBER , NUMBERLIST | EPSILON
-  EPSILON       -> *empty string*
-  NUMBER        -> *base-10 encoded value*
-  ANYSTRING     -> *any string with no special characters*
+  CIRCUIT       -> <circuit> ELEMENTS </circuit>  
+  ELEMENTS      -> ELEMENT ELEMENTS | EPSILON  
+  ELEMENT       -> INPUT | OUTPUT | CONSTANT | LOGIC  
+  INPUT         -> <input FIELDS ></input>  
+  OUTPUT        -> <output FIELDS ></output>  
+  CONSTANT      -> <constant FIELDS ></constant>  
+  LOGIC         -> <logic FIELDS > ELEMENTS </logic>  
+  FIELDS        -> FIELD FIELDS | EPSILON  
+  FIELD         -> NAME | TYPE | BITWIDTH | CONNECTION | WHICHBITS  
+  NAME          -> name=”ANYSTRING”  
+  TYPE          -> type=”TYPESTRING”  
+  TYPESTRING    -> not | and | nand | or | nor | xor | xnor | negator | comparator | mux | decoder | multiplier | divider | adder | pmos | nmons  
+  BITWIDTH      -> bitwidth=”NUMBER”  
+  CONNECTION    -> connection=”ANYSTRING”  
+  WHICHBITS     -> whichBits=”NUMBERLIST”  
+  NUMBERLIST    -> NUMBER , NUMBERLIST | EPSILON  
+  EPSILON       -> *empty string*  
+  NUMBER        -> *base-10 encoded value*  
+  ANYSTRING     -> *any string with no special characters*  
