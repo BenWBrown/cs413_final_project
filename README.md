@@ -30,10 +30,10 @@
   CIRCUIT       -> \<circuit\> ELEMENTS \</circuit\>  
   ELEMENTS      -> ELEMENT ELEMENTS | EPSILON  
   ELEMENT       -> INPUT | OUTPUT | CONSTANT | LOGIC  
-  INPUT         -> <input FIELDS ></input>  
-  OUTPUT        -> <output FIELDS ></output>  
-  CONSTANT      -> <constant FIELDS ></constant>  
-  LOGIC         -> <logic FIELDS > ELEMENTS </logic>  
+  INPUT         -> \<input FIELDS \>\</input\>  
+  OUTPUT        -> \<output FIELDS \>\</output\>  
+  CONSTANT      -> \<constant FIELDS \>\</constant\>  
+  LOGIC         -> \<logic FIELDS \> ELEMENTS \</logic\>  
   FIELDS        -> FIELD FIELDS | EPSILON  
   FIELD         -> NAME | TYPE | BITWIDTH | CONNECTION | WHICHBITS  
   NAME          -> name=”ANYSTRING”  
