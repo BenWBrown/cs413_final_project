@@ -21,6 +21,9 @@ Usage:
 Current Features:
   Combinatorial logic including transistors, logic gates, inverters, muxes / decoders, splitters, and arithmetic elements.
 
+Known Bugs:
+  Circuit crash when write mux's and decoder's Write Enable bit set to 0. (Ideally would output [])
+
 Future Features:
   Nested circuits.
   GUI.
@@ -38,7 +41,7 @@ XML Specification: Context Free Grammar
   FIELD         -> NAME | TYPE | BITWIDTH | CONNECTION | WHICHBITS
   NAME          -> name=”ANYSTRING”
   TYPE          -> type=”TYPESTRING”
-  TYPESTRING    -> not | and | nand | or | nor | xor | xnor | negator | comparator | mux | decoder | multiplier | divider | adder | pmos | nmons  
+  TYPESTRING    -> not | and | nand | or | nor | xor | xnor | negator | comparator | mux | decoder | multiplier | divider | adder | pmos | nmons
   BITWIDTH      -> bitwidth=”NUMBER”
   CONNECTION    -> connection=”ANYSTRING”
   WHICHBITS     -> whichBits=”NUMBERLIST”

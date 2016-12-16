@@ -1,7 +1,5 @@
 <circuit name="main">
-  <!-- crash when negative input -->
-
-  <!-- inputs and constants -->
+  
   <input name="circ - div input 1" bitwidth="4" connection="Hub 1"></input>
   <input name="circ - div input 2" bitwidth="4" connection="Hub 2"></input>
 

@@ -21,6 +21,9 @@
 ### Current Features
   Combinatorial logic including transistors, logic gates, inverters, muxes / decoders, splitters, and arithmetic elements.  
 
+### Known Bugs
+  Circuit crash when write mux's and decoder's Write Enable bit set to 0. (Ideally would output [])  
+
 ### Future Features
   Nested circuits.  
   GUI.  

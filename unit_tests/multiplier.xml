@@ -1,7 +1,5 @@
 <circuit name="main">
-  <!-- crash when WE set to 0 -->
 
-  <!-- inputs and constants -->
   <input name="circ - mult input 1" bitwidth="4" connection="Hub 1"></input>
   <input name="circ - mult input 2" bitwidth="4" connection="Hub 2"></input>
 

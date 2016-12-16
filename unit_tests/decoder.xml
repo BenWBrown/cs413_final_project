@@ -1,8 +1,6 @@
 <circuit name="main">
   <!-- crash when WE set to 0 -->
 
-
-  <!-- inputs and constants -->
   <input name="circ - WE" bitwidth="1" connection="Hub 1"></input>
   <input name="circ - selection" bitwidth="2" connection="Hub 2"></input>
 
