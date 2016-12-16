@@ -6,15 +6,17 @@ import Bits
 import Data.List
 import Control.Exception
 
-update :: Circuit -> Circuit -> Circuit
-update containingCircuit (LogicElement f ins outs) = LogicElement f newInputs newOutputs where
+updateCircuit :: Circuit -> Circuit
+updateCircuit containingCircuit@(Circuit logicElts ins outs) =
+  case (map (updateLogicElt containingCircuit)  logicElts) of --apply in turn
+  listOfLogicElts -> Circuit listOfLogicElts ins (map (update' containingCircuit) outs)
+
+updateLogicElt :: Circuit -> LogicElement -> LogicElement
+updateLogicElt containingCircuit c@(LogicElement f ins outs) = LogicElement f newInputs newOutputs where
   newInputs = map (update' containingCircuit) ins
   newOutputs = case find (==[]) (map value ins) of
     Nothing -> map newValue (zip outs (f (map value ins)))
     Just _ -> outs
-update containingCircuit c@(Circuit logicElts ins outs) =
-  case (map (update containingCircuit) logicElts) of --apply in turn
-  listOfLogicElts -> Circuit listOfLogicElts ins (map (update' c) outs)
 
 update' :: Circuit -> ConnectedElement -> ConnectedElement
 update' containingCircuit elt = case valueForConnection containingCircuit (connection elt) of
@@ -39,13 +41,13 @@ updateInputs (Circuit logicElts ins outs) inputValues = Circuit logicElts (newIn
   consts = filter isConstant ins
 
 runCircuit :: Int -> Circuit -> [[Bit]] -> [[Bit]]
-runCircuit depth circuit ins = map value (outputs (runCircuit' depth (updateInputs circuit ins) circuit ))
+runCircuit depth circuit ins = map value (outputs (runCircuit' depth (updateInputs circuit ins) ))
 
-runCircuit' :: Int -> Circuit -> Circuit -> Circuit
-runCircuit' 0 _ _ = throw MaxRecursionException
-runCircuit' depth containingCircuit circuit =
+runCircuit' :: Int -> Circuit -> Circuit
+runCircuit' 0 _ = throw MaxRecursionException
+runCircuit' depth circuit =
   case allOutputsFilled circuit of
-    False -> runCircuit' (depth -1) (update containingCircuit circuit) (update containingCircuit circuit)
+    False -> runCircuit' (depth -1) (updateCircuit circuit)
     True -> circuit
 
 allOutputsFilled :: Circuit -> Bool
